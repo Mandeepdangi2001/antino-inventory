@@ -1,0 +1,121 @@
+[
+  {
+    "id": 1,
+    "fullName": "Jenny Chan",
+    "phoneNumber":"9992448639",
+    "Address":"abc/203",
+    "createdAt":"27-02-2023",
+   
+    
+    "email":"abc@gmail.com",
+    "action":"extraDetails"
+  },
+  
+    {
+      "id": 2,
+      "fullName": "Jenny Chan",
+      "phoneNumber":"9992448639",
+      "Address":"abc/203",
+      "createdAt":"27-02-2023",
+     
+      "email":"abcd@gmail.com",
+    
+      "action":"extraDetails"
+    },
+    
+      {
+        "id": 3,
+        "fullName": "Jenny Chan",
+        "phoneNumber":"9992448639",
+        "Address":"abc/203",
+        "createdAt":"27-02-2023",
+        "email":"abcde@gmail.com",
+        
+      
+        "action":"extraDetails"
+      },
+      
+        {
+          "id": 4,
+          "fullName": "Jenny Chan",
+          "phoneNumber":"9992448639",
+          "Address":"abcdef/203",
+          "createdAt":"27-02-2023",
+         
+          "email":"abcdef@gmail.com",
+        
+          "action":"extraDetails"
+        },
+        
+          {
+            "id": 5,
+            "fullName": "Jenny Chan",
+            "phoneNumber":"9992448639",
+            "Address":"abcdefg/203",
+            "createdAt":"27-02-2023",
+           
+            
+            "email":"abc@gmail.com",
+            "action":"extraDetails"
+          },
+          
+            {
+              "id": 6,
+              "fullName": "Jenny Chan",
+              "phoneNumber":"9992448639",
+              "Address":"abc/203",
+              "createdAt":"27-02-2023",
+             
+              "email":"abc@gmail.com",
+            
+              "action":"extraDetails"
+            },
+            
+              {
+                "id": 7,
+                "fullName": "Jenny Chan",
+                "phoneNumber":"9992448639",
+                "Address":"abc/203",
+                "createdAt":"27-02-2023",
+               
+                
+                "email":"abc@gmail.com",
+                "action":"extraDetails"
+              },
+              
+                {
+                  "id": 8,
+                  "fullName": "Jenny Chan",
+                  "phoneNumber":"9992448639",
+                  "Address":"abc/203",
+                  "createdAt":"27-02-2023",
+                 
+                  
+                  "email":"abc@gmail.com",
+                  "action":"extraDetails"
+                },
+                
+                  {
+                    "id": 9,
+                    "fullName": "Jenny Chan",
+                    "phoneNumber":"9992448639",
+                    "Address":"abc/203",
+                    "createdAt":"27-02-2023",
+                    "email":"abc@gmail.com",
+                    
+                  
+                    "action":"extraDetails"
+                  },
+                  
+                    {
+                      "id": 10,
+                      "fullName": "Jenny Chan",
+                      "phoneNumber":"9992448639",
+                      "Address":"abc/203",
+                      "createdAt":"27-02-2023",
+                     
+                      "email":"abc@gmail.com",
+                    
+                      "action":"extraDetails"
+                    }
+]
