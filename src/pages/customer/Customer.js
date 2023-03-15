@@ -1,9 +1,13 @@
 import React from 'react'
+import Sidebar from '../../components/Sidebar'
 import FormData from './Form'
 
 const Customer = () => {
   return (
-    <FormData />
+    <div>
+      <Sidebar />
+      <FormData />
+      </div>
   )
 }
 

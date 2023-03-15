@@ -1,0 +1,24 @@
+/* @media only screen and (max-width: 950px) {
+    .dashBoard-cards {
+    flex-direction: column;
+    
+    }
+  }
+
+  @media only screen and (max-width: 1200px) {
+    .dashBoard-charts {
+    flex-direction: column;
+  
+    
+    }
+  }
+  
+  @media only screen and(min-width:900px)and (max-width: 1200px) {
+    .dashBoard-charts Linechart {
+    
+  
+  width: 100vw;
+  height: 48vh;
+    
+    }
+  } */

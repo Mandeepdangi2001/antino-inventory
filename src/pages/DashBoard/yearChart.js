@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react'
 import { Line } from "react-chartjs-2";
 import axios from 'axios';
+import "./DashBoard.css"
 import { Chart as ChartJs, Title, Tooltip, LineElement, Legend, CategoryScale, LinearScale, PointElement, Filler } from 'chart.js';
 import card from './card';
 ChartJs.register(
@@ -50,8 +51,8 @@ const YearChart = () => {
     }, [])
 
     return (
-        <div style={{width:"600px" ,height:"300px"}}>
-            <Line data={data}></Line>
+        <div className='dashBoard-yearChart'  >
+            <Line data={data} style={{width:"40vw" ,height:"45vh"}}></Line>
         </div>
     )
 }

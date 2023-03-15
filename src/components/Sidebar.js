@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import * as FaIcons from 'react-icons/fa';
-import * as AiIcons from 'react-icons/ai';
+
 import { SidebarData } from './SidebarData';
 import ProfilePIc from './img/abc.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,6 +15,7 @@ import { IconContext } from 'react-icons/lib';
 const Nav = styled.div`
   background: navy;
   height: 80px;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -25,7 +25,7 @@ const Nav = styled.div`
   font-style: italic;
   }
  
- 
+
   
  
 
@@ -108,19 +108,30 @@ const Sidebar = () => {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+  const[owner,setOwner]=useState([{}])
+  useEffect(()=>{
+    staffNavbar();
+},[])
+  const staffNavbar=()=>{
+  const ownerData= SidebarData.filter((contact)=>contact.title!=="Employees");
+  setOwner(ownerData);
+  console.log(ownerData)
+  }
+  const userName = localStorage.getItem('UserName');
 
+if(window.role=="O" || userName==="Mandeep"){
   return (
     <>
       <IconContext.Provider value={{ color: 'white' }}>
         <Nav style={{height:"10vh" ,position:"fixed",top:"0%",width:"100vw"}}>
           
-          <NavIcon to='#'>
+          <NavIcon >
           <FontAwesomeIcon icon={faBars} color="white" onClick={showSidebar} ></FontAwesomeIcon>
            
           </NavIcon>
           <h1>Antino Inventory</h1>
          < ProfileStyle >
-          <h3 className=''>Mandeep</h3>
+          <h3 className=''>{userName}</h3>
           <img src={ProfilePIc} alt="" />
           </ProfileStyle>
 
@@ -149,7 +160,54 @@ const Sidebar = () => {
         </SidebarNav>
       </IconContext.Provider>
     </>
+
   );
 };
+return(
+  <>
+  <IconContext.Provider value={{ color: 'white' }}>
+    <Nav style={{height:"10vh" ,position:"fixed",top:"0%",width:"100vw"}}>
+      
+      <NavIcon >
+      <FontAwesomeIcon icon={faBars} color="white" onClick={showSidebar} ></FontAwesomeIcon>
+       
+      </NavIcon>
+      <h1>Antino Inventory</h1>
+     < ProfileStyle >
+      <h3 className=''>{userName}</h3>
+      <img src={ProfilePIc} alt="" />
+      </ProfileStyle>
+
+      
+    </Nav>
+    <SidebarNav sidebar={sidebar}>
+      <SidebarWrap>
+        <NavIcon to='#'>
+       < FontAwesomeIcon icon={faXmark} color="white" onClick={showSidebar} ></FontAwesomeIcon>
+          
+        </NavIcon>
+        
+       
+        {owner.map((item, index) => {
+          return (<li className={item.cName} key={index}  onClick={showSidebar} style={{listStyleType:'none'}} >
+            <ItemStyle><Link to={item.path}>
+              {item.icon}
+              <Text>{item.title}</Text>
+             
+            </Link>
+            </ItemStyle>
+            </li>
+          );
+        })}
+         
+      </SidebarWrap>
+    </SidebarNav>
+  </IconContext.Provider>
+</>
+
+);
+};
+
+
 
 export default Sidebar;

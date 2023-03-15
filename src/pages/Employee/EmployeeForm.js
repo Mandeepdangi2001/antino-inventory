@@ -3,68 +3,71 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 // import data from "./mock-data.json";
 
 import _ from "lodash";
-
+import * as AiIcons from "react-icons/ai";
 import data from "./mock-data.json";
 import styled from "styled-components";
 import axios from "axios";
-import Table from "./salesList";
-import "./salesForm.css";
+import EmployeeTAble from "./EmployeeTAble"
+import "./EmployeeForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "./Pagination";
+import { useNavigate } from "react-router-dom";
 
 const NavIcon = styled.div`
   display: inline;
 `;
 
 const FormData = () => {
+  const navigate = useNavigate();
   const [contacts, setContacts] = useState([]);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(7);
-  const token=localStorage.getItem('Token')
+  const [modal, setmodal] = useState(false);
+  const token = localStorage.getItem('Token');
+
+  const [addFormData, setAddformData] = useState({
+    userName: "",
+    userEmail: "",
+    phoneNumber:"",
+    address:"",
+
+
+    // createdAt: "",
+    employeeId: "",
+  });
 
   // useEffect(() => {
-  //   axios.get('https://mocki.io/v1/12336cc3-8873-4c59-9fa3-3d2870207bd9')
+  //   axios.get('http://localhost:8080/product/pageNO/0/noOfItems/1')
   //     .then(res => {
-  //       setContacts(res.data);
+  //       console.log(res);
+  //       setContacts(res);
 
   //     });
 
   // }, [])
  
-
-  const [modal, setmodal] = useState(false);
-
-  const [addFormData, setAddformData] = useState({
-    transactionId: "",
-    customerName: "",
-    productName: "",
-    quantity: "",
-    createdAt: "",
-    totalAmount:"",
-  });
-
   useEffect(() => {
    
     CartData();
   }, []);
+  
+
   async function CartData() {
     try {
       const response = await axios.get(
-        "http://localhost:8080/transaction/pageNo/0/noOfTransactions/100/sortBy/createdAt",{ headers: {"Authorization" : `Bearer ${token}`,
+        " http://localhost:8080/pagingAndSortingUser/0/100",{ headers: {"Authorization" : `Bearer ${token}`,
         'Accept' : 'application/json',
         'Content-Type': 'application/json'} }
       );
       console.log("Cart returned the data: ", window.token);
-      setContacts(response.data);
+      setContacts(response.data.content);
       // console.log(productData[1].description);
     } catch (error) {
       console.log(">>>>>>>>>>> error is ",error);
     }
   }
-
   const handleAddFormChange = (event) => {
     event.preventDefault();
 
@@ -85,12 +88,12 @@ const FormData = () => {
     event.preventDefault();
 
     const newContact = {
-      
-      quantity: addFormData.quantity,
-      customerName: addFormData.customerName,
-      productName: addFormData.productName,
-      totalAmount:addFormData.totalAmount,
-      
+      userName: addFormData.userName,
+      userEmail: addFormData.userEmail,
+      password:addFormData.password,
+      address: addFormData.address,
+      phoneNumber: addFormData.phoneNumber,
+      role: "S"
     };
 
     const newContacts = [...contacts, newContact];
@@ -98,104 +101,140 @@ const FormData = () => {
     const getCartData=async() =>  {
       try {
         const response = await axios.post(
-          "http://localhost:8080/createTransaction",newContact,{ headers: {"Authorization" : `Bearer ${token}`,
-          'Accept' : 'application/json',
-          'Content-Type': 'application/json'
-       } })
-        ;
-        console.log("Cart returned the data: ", window.token);
+          "http://localhost:8080/register/employee", newContact, {
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            }
+        });
         CartData();
+        
+        if (response.data.statusCode == "200") {
 
+          alert("staff registered successfully");
+          // setToken(true);
+          navigate("/employee");
+        } else {
+          alert("staff already exist");
+        }
+        console.log("Cart returned the data: ", window.token);
+        console.log("data is "+response.response);
+        //setContacts(response.response);
         // console.log(productData[1].description);
       } catch (error) {
         console.log(">>>>>>>>>>> error is ",error);
       }
     }
     getCartData();
-  };
-  
-
+  };  
+  console.log(contacts);
   const lastPostIndex = currentPage * postPerPage;
   const firPostIndex = lastPostIndex - postPerPage;
   const currentPost = contacts.slice(firPostIndex, lastPostIndex);
 
   return (
-    <div>
+    <div style={{ marginTop: "11vh" }}>
       <Modal size="lg" isOpen={modal} toggle={() => setmodal(!modal)}>
-        ;
-        <ModalHeader style={{ color: "green" }}>
-          Add Your product here
+        <ModalHeader
+          style={{
+            color: "green",
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "30px",
+          }}
+        >
+          Add Your Employee Here:
         </ModalHeader>
         <ModalBody>
           <form className="d-block p-2  " onSubmit={handleAddFormSubmit}>
-            <div className="form-group">
-              <label for="exampleInputEmail1">Product Name:</label>
+            {/* <div className="form-group">
+              <label for="exampleInputEmail1">Employee Id:</label>
               <input
-                type="text"
+                type="number"
                 required="required"
-                name="productName"
+                name="employeeId"
                 className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Product Name "
+                placeholder=" Id "
                 onChange={handleAddFormChange}
               />
-            </div>
+            </div> */}
             <div className="form-group">
-              <label for="exampleInputEmail1">Customer Name :</label>
+              <label for="exampleInputEmail1">Name :</label>
               <input
                 type="text"
                 required="required"
-                name="customerName"
+                name="userName"
                 className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Customer Name "
+                placeholder="Name "
                 onChange={handleAddFormChange}
               />
             </div>
 
             <div className="form-group">
-              <label for="exampleInputEmail1">Quantity : </label>
+              <label for="exampleInputEmail1">Email :</label>
               <input
-                type="number"
+                type="email"
                 required="required"
-                name="quantity"
+                name="userEmail"
                 className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Quantity "
+                placeholder="Email "
                 onChange={handleAddFormChange}
               />
             </div>
-            {/* <div className="form-group">
-              <label for="exampleInputEmail1">Transaction Id: </label>
-              <input
-                type="number"
-                required="required"
-                name="transactionId"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Transaction Id "
-                onChange={handleAddFormChange}
-              />
-            </div> */}
+
             <div className="form-group">
-              <label for="exampleInputEmail1">Total Amount : </label>
+              <label for="exampleInputEmail1">Phone number :</label>
               <input
                 type="number"
                 required="required"
-                name="totalAmount"
+                name="phoneNumber"
                 className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Total Amount "
+                placeholder="Phone Number "
                 onChange={handleAddFormChange}
               />
-</div>
+            </div>
+
+            <div className="form-group">
+              <label for="exampleInputEmail1">Address :</label>
+              <input
+                type="text"
+                required="required"
+                name="address"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Address "
+                onChange={handleAddFormChange}
+              />
+            </div>
+
+            <div className="form-group">
+              <label for="exampleInputEmail1">Password :</label>
+              <input
+                type="text"
+                required="required"
+                name="password"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                minlength="8"
+                placeholder="Password "
+                onChange={handleAddFormChange}
+              />
+            </div>
+
+
             <button
-              className="bg-dark text-white d-block mt-3"
+              className="bg-dark text-white d-block mt-3 rounded"
               onClick={() => setmodal(false)}
             >
               Submit
@@ -209,7 +248,7 @@ const FormData = () => {
           className="btn mt-3 d-inline justify-last "
           style={{ fontSize: "1.5rem" }}
         >
-          Add Transaction{" "}
+         Add Employee
         </button>
         <FontAwesomeIcon
           icon={faPlus}
@@ -225,12 +264,10 @@ const FormData = () => {
           onClick={() => setmodal(true)}
         />
       </div>
-      <Table contacts={currentPost} />
-      <Pagination
-        totalPost={contacts.length}
-        postPerPage={postPerPage}
-        setCurrentPage={setCurrentPage}
-      />
+     
+      <EmployeeTAble contacts={currentPost} />
+      <Pagination totalPost={contacts.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
+     
     </div>
   );
 };

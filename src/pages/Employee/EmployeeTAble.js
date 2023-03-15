@@ -1,21 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import Pagination from "./Pagination";
 // import data from "./mock-data.json";
-
+import "./EmployeeForm.css";
 import _, { filter } from "lodash";
 import "bootstrap/dist/css/bootstrap.css";
 import "./modal.css";
-import "./form.css";
+import "./EmployeeTable.css";
 
 const Table = ({ contacts }) => {
   const [detailModal, setDetailModal] = useState(false);
   const [filtered, setFiltered] = useState([]);
 
-  const showDetailHandler = (productId) => {
-    
+  const showDetailHandler = (employeeId) => {
+    console.log(employeeId);
     const filteredData = contacts.filter(
-      (contact) => contact?.productId === productId
+      (contact) => contact?.employeeId === employeeId
     );
     // console.log({contacts})
     setFiltered(filteredData);
@@ -32,44 +31,30 @@ const Table = ({ contacts }) => {
           <table>
             <thead>
               <tr>
-                <th>Product Id</th>
-                <th>Product Name</th>
+                <th>Employee Id</th>
+                <th>Employee Name</th>
+                <th>Employee Email</th>
+                <th>Address</th>
+                <th>Phone Number</th>
                 <th>Created At</th>
-                <th>Category</th>
-
-                <th>Action</th>
+               
               </tr>
             </thead>
 
             <tbody>
-              
               {contacts.map((contact) => (
                 <tr>
-                  <td>{contact?.productId}</td>
-                  <td>{contact?.productName} </td>
+                  <td>{contact?.id}</td>
+                  <td>{contact?.userName} </td>
+                  <td>{contact?.userEmail}</td>
+                  <td>{contact?.address}</td>
+                  <td>{contact?.phoneNumber}</td>
                   <td>{contact?.createdAt}</td>
 
-                  <td>{contact?.category}</td>
-                  
-
-                  <td
-                    style={{
-                      cursor: "pointer",
-
-                      fontWeight: "bold",
-                    }}
-                    className="f-2rem"
-                    onClick={() => {
-                      setDetail();
-                      showDetailHandler(contact?.productId);
-                    }}
-                  >
-                    Product Detail
-                  </td>
                 </tr>
               ))}
 
-              <Modal
+              {/* <Modal
                 size="lg"
                 isOpen={detailModal}
                 toggle={() => setDetailModal(!detailModal)}
@@ -78,16 +63,12 @@ const Table = ({ contacts }) => {
                   Product extra Details
                 </ModalHeader>
                 <ModalBody>
-                  <h4>Quantity : {filtered[0]?.quantity}</h4>
-                  <h4>ProductDescription : {filtered[0]?.productDescription}</h4>
-                  <h4>Price : {filtered[0]?.price}</h4>
-                  <h4>Gst : {filtered[0]?.gst}</h4>
+                  <h4>Quantity is : {filtered[0]?.quantity}</h4>
                 </ModalBody>
-              </Modal>
+              </Modal> */}
             </tbody>
           </table>
         </form>
-       
       </div>
     </div>
   );

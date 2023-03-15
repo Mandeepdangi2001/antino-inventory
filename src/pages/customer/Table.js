@@ -12,10 +12,10 @@ const Table = ({ contacts }) => {
   const [filtered, setFiltered] = useState([]);
   
 
-  const showDetailHandler = (id) => {
+  const showDetailHandler = (customerId) => {
     
     const filteredData = contacts.filter(
-      (contact) => contact?.id === id
+      (contact) => contact?.customerId === customerId
     );
     // console.log({contacts})
     setFiltered(filteredData);
@@ -33,10 +33,10 @@ const Table = ({ contacts }) => {
           <table>
             <thead>
               <tr>
-                <th>Customer id</th>
-                <th>Name</th>
+                <th>Customer Id</th>
+                <th>Customer Name</th>
                 <th>PhoneNumber</th>
-                <th>Address</th>
+                <th>Customer Address</th>
                 <th>Created At</th>
                 <th>Action</th>
               </tr>
@@ -45,10 +45,10 @@ const Table = ({ contacts }) => {
             <tbody>
               {contacts.map((contact) => (
                 <tr>
-                  <td>{contact?.id} </td>
-                  <td>{contact?.fullName}</td>
-                  <td>{contact?.phoneNumber}</td>
-                  <td>{contact?.Address}</td>
+                  <td>{contact?.customerId} </td>
+                  <td>{contact?.customerName}</td>
+                  <td>{contact?.customerPhone}</td>
+                  <td>{contact?.customerAddress}</td>
                   <td>{contact?.createdAt}</td>
                   <td
                     style={{
@@ -59,7 +59,7 @@ const Table = ({ contacts }) => {
                     className="f-2rem"
                     onClick={() => {
                       setDetail();
-                      showDetailHandler(contact?.id);
+                      showDetailHandler(contact?.customerId);
                     }}
                   >
                    Extra Details
@@ -77,7 +77,7 @@ const Table = ({ contacts }) => {
                 </ModalHeader>
                 <ModalBody >
                  
-                  <h4 >Email Address:{ filtered[0]?.email}</h4>
+                  <h4 >Email Address:{ filtered[0]?.customerEmail}</h4>
                 </ModalBody>
               </Modal>
             </tbody>

@@ -1,0 +1,10 @@
+.Customer-extra-details{
+    font-size: 1rem;
+}
+
+@media only screen and (max-width: 530px) {
+ .Customer-extra-details {
+     padding-top: 25px;
+     padding-bottom: 40px;
+    }
+  }

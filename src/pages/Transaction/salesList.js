@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import "./salesList.css"
 // import data from "./mock-data.json";
 
 import _, { filter } from "lodash";
@@ -23,12 +24,12 @@ const Table = ({ contacts }) => {
             <thead>
               <tr>
                  
+              <th>Transaction Id</th>
                  <th>Customer Name</th>
                 <th>Product Name</th>
                 <th>Created At</th>
                 <th>Quantity</th>
-                <th>Gst</th>
-                <th>Total Price</th>
+                <th>Total Amount</th>
                
                
               </tr>
@@ -37,13 +38,14 @@ const Table = ({ contacts }) => {
             <tbody>
               {contacts.map((contact) => (
                 <tr>
+                  <td>{contact?.transactionId}</td>
                   <td>{contact?.customerName}</td>
                   <td>{contact?.productName} </td>
                   <td>{ contact?.createdAt}</td>
                  
                   <td>{contact?.quantity}</td>
-                  <td>{contact?.gst}</td>
-                  <td>{contact?.totalPrice}</td>
+                  <td>{contact?.totalAmount}</td>
+            
                  
                  
                  

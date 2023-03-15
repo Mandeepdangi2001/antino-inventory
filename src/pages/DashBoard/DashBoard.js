@@ -3,27 +3,50 @@ import Card from "./card";
 import LineChart from "./chart";
 import YearChart from "./yearChart";
 import { CSVLink } from 'react-csv';
+import "./DashBoard.css"
 
 import axios from "axios";
 const DashBoard = () => {
+  const token = localStorage.getItem('Token');
   const [monthUserData, setMonthUserData] = useState([]);
   const [yearlyUserData, setYearlyUserData] = useState([]);
+  // const[size,setSize]=useState("");
 
+  const [size,setSize]=useState();
   useEffect(() => {
-  
-    axios.get("https://mocki.io/v1/b0bb67c5-e4f9-4002-9ef1-a36e1e7f9ba6")
-      .then(res => setMonthUserData(res.data)
-      );
+    async function getCartData() {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/transactions/current-month/sales",{ headers: {"Authorization" : `Bearer ${token}`,
+          'Accept' : 'application/json',
+          'Content-Type': 'application/json'} }
+        );
+        // console.log("Cart returned the data: ", window.token);
+        setSize(response.data.size)
+        setMonthUserData(response.data.transactionDetails)
+        // console.log(productData[1].description);
+      } catch (error) {
+        console.log(">>>>>>>>>>> error is ",error);
+      }
+    }
+    getCartData();
   }, []);
-  console.log(monthUserData);
+
+  // useEffect(() => {
+  
+  //   axios.get("http://localhost:8080/transactions/current-month/sales",{ headers: {"Authorization" : `Bearer ${window.token}`},  withCredentials: false })
+  //     .then(res => setMonthUserData(res.data.transactionDetails)
+  //     );
+  // }, []);
+  // console.log(monthUserData);
 
   
-  useEffect(() => {
+  // useEffect(() => {
   
-    axios.get("https://mocki.io/v1/8cdd4023-6bc5-401f-a8c1-66c61c3cddc9")
-      .then(res => setYearlyUserData(res.data)
-      );
-  }, []);
+  //   axios.get("https://mocki.io/v1/8cdd4023-6bc5-401f-a8c1-66c61c3cddc9")
+  //     .then(res => setYearlyUserData(res.data)
+  //     );
+  // }, []);
   
   
      
@@ -41,21 +64,22 @@ const DashBoard = () => {
   return (
     <div>
       <div
+        className="dashBoard-cards"
         style={{
           display: "flex",
-          justifyContent: "space-around",
+          justifyContent: "flex-end",
           marginTop: "12vh",
           marginBottom: "2rem",
+          marginRight:"2rem"
         }}
       >
-        <Card data="Total Transactions : 1000" />
-        <Card data="Total Amount :34 " />
-        <Card data="Pending Transaction :5" />
+        <Card data={size} />
+       
       </div>
 
-      <div style={{ display: "flex", justifyContent: "space-around" }}>
-        <LineChart />
-        <YearChart />
+      <div className="dashBoard-charts" style={{ display: "flex", justifyContent: "space-around" }}>
+        <LineChart  className='dashBoard-monthChart'/>
+        {/* <YearChart className='dashBoard-yearChart'  /> */}
       </div>
       <div
         style={{
@@ -65,18 +89,21 @@ const DashBoard = () => {
         }}
       >
         <button 
+          // onClick={yearlyReport}
           style={{
             borderRadius: "8px",
-            background: "lightBlue",
-            color: "black",
+            background: "black",
+           
             cursor: "pointer",
+            padding:"0.3rem"
           }}
         >
-          <CSVLink data={monthUserData}> Download Report</CSVLink>
+          <CSVLink style={{ color: "white",
+            }} data={monthUserData}> Download Report</CSVLink>
          
         </button>
-        <button
-          // onClick={yearlyReport}
+        {/* <button
+          // 
           style={{
             borderRadius: "8px",
             background: "lightBlue",
@@ -90,7 +117,7 @@ const DashBoard = () => {
         >
            <CSVLink data={yearlyUserData}> Download Report</CSVLink>
         
-        </button>
+        </button> */}
       </div>
     </div>
   );

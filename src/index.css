@@ -17,4 +17,12 @@ body {
       monospace;
   
   }
+
+    @media only screen and (max-width: 500px) {
+    html{
+
+    width: 100%;
   
+    
+    }
+  }
