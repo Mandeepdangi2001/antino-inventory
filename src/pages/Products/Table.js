@@ -36,6 +36,7 @@ const Table = ({ contacts }) => {
                 <th>Product Name</th>
                 <th>Created At</th>
                 <th>Category</th>
+              
 
                 <th>Action</th>
               </tr>
@@ -50,6 +51,7 @@ const Table = ({ contacts }) => {
                   <td>{contact?.createdAt}</td>
 
                   <td>{contact?.category}</td>
+                  
                   
 
                   <td
@@ -80,8 +82,10 @@ const Table = ({ contacts }) => {
                 <ModalBody>
                   <h4>Quantity : {filtered[0]?.quantity}</h4>
                   <h4>ProductDescription : {filtered[0]?.productDescription}</h4>
-                  <h4>Price : {filtered[0]?.price}</h4>
+                  <h4>Price Per Piece : {filtered[0]?.price}</h4>
                   <h4>Gst : {filtered[0]?.gst}</h4>
+                  <h4>Purchase Type : { filtered[0]?.purchaseType}</h4>
+                  <h4>Vendor : { filtered[0]?.vendor}</h4>
                 </ModalBody>
               </Modal>
             </tbody>

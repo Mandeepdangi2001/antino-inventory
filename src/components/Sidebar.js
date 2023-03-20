@@ -146,9 +146,9 @@ if(window.role=="O" || userName==="Mandeep"){
            
             {SidebarData.map((item, index) => {
               return (<li className={item.cName} key={index}  onClick={showSidebar} style={{listStyleType:'none'}} >
-                <ItemStyle><Link to={item.path}>
+                <ItemStyle><Link to={item.path} style={{textDecoration:"none"}}>
                   {item.icon}
-                  <Text>{item.title}</Text>
+                  <Text >{item.title}</Text>
                  
                 </Link>
                 </ItemStyle>
@@ -190,7 +190,7 @@ return(
        
         {owner.map((item, index) => {
           return (<li className={item.cName} key={index}  onClick={showSidebar} style={{listStyleType:'none'}} >
-            <ItemStyle><Link to={item.path}>
+            <ItemStyle><Link to={item.path} style={{textDecoration:"none"}}>
               {item.icon}
               <Text>{item.title}</Text>
              

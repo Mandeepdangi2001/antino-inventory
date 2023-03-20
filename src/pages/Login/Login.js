@@ -3,7 +3,9 @@ import "./login.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-// import { ToastContainer, toast } from 'react-toastify';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = ({
   option,
@@ -108,10 +110,20 @@ const Login = ({
         .then((res) => {
           console.log("dgwaddawd" + res.data.statusCode);
           if (res.data.statusCode == "200") {
-            alert("user registered successfully");
+            toast("user registered successfully");
             navigate("/");
           } else {
-            alert("owner already exist");
+           
+            toast.error("owner already exist!!!", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              });
           }
         })
         .catch((e) => console.log("Error aa gyi", e));
@@ -128,7 +140,7 @@ const Login = ({
           password: passwordChange,
         })
         .then((res) => {
-          console.log("dgwaddawd" + res.data.statusCode);
+          console.log("dgwaddawd" + res.data.st);
           
           if (res.data.statusCode == "200") {
            
@@ -148,7 +160,17 @@ const Login = ({
           
              
           } else {
-            alert("Incorrect username or password");
+       
+            toast.error("Incorrect username or password", {
+              position: "top-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              });
           }
          
         })
@@ -204,6 +226,20 @@ const Login = ({
             {option === true ? "Sign in" : "Sign up"}
           </button>
         </form>
+        <ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
+{/* Same as */}
+<ToastContainer />
       </div>
     );
   }
@@ -243,7 +279,7 @@ const Login = ({
           {option === true ? "Sign in" : "Sign up"}
         </button>
       </form>
-      
+      <ToastContainer />
     </div>
   );
 };

@@ -30,6 +30,7 @@ const Table = ({ contacts }) => {
                 <th>Created At</th>
                 <th>Quantity</th>
                 <th>Total Amount</th>
+                <th>Purchase Type</th>
                
                
               </tr>
@@ -45,6 +46,7 @@ const Table = ({ contacts }) => {
                  
                   <td>{contact?.quantity}</td>
                   <td>{contact?.totalAmount}</td>
+                  <td>{ contact?.purchaseType}</td>
             
                  
                  

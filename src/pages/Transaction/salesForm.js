@@ -13,6 +13,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "./Pagination";
+import Select from "react-select";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NavIcon = styled.div`
   display: inline;
@@ -20,101 +23,242 @@ const NavIcon = styled.div`
 
 const FormData = () => {
   const [contacts, setContacts] = useState([]);
+  const [customeName, setCustomerName] = useState([]);
+  const [productName, setProductName] = useState([]);
+
+  const [customer, setCustomer] = useState();
+  const [product, setProduct] = useState();
+  const [productId, setProductId] = useState();
+  const [quantity, setQuantity] = useState();
+  const [amount, setAmount] = useState();
+  const [purchaseType, setpurchaseType] = useState();
+  const [valueof, setValue] = useState();
+  const [productArray, setProductArray] = useState();
+  const [purchaseTypeValue, setPurchaseTypeValue] = useState();
+  const [inventoryQuantity, setInventoryQuantity] = useState();
+
+  const [globalValue, setGlobalValue] = useState();
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(7);
-  const token=localStorage.getItem('Token')
-
-  // useEffect(() => {
-  //   axios.get('https://mocki.io/v1/12336cc3-8873-4c59-9fa3-3d2870207bd9')
-  //     .then(res => {
-  //       setContacts(res.data);
-
-  //     });
-
-  // }, [])
- 
+  const [quantityValue, setQuantityValue] = useState();
+  const token = localStorage.getItem("Token");
 
   const [modal, setmodal] = useState(false);
+  console.log(valueof, "uhjjsdsud value of ");
 
-  const [addFormData, setAddformData] = useState({
-    transactionId: "",
-    customerName: "",
-    productName: "",
-    quantity: "",
-    createdAt: "",
-    totalAmount:"",
-  });
+  const getValue = (value) => {
+    {
+      // console.log(value);
+      const wantedArray = productArray?.filter(
+        (item) => value == item.productName
+      );
 
+      // console.log(wantedArray);
+      //  console.log();
+      // alert(wantedArray[0].price);
+      // alert(amount);
+
+      // const arr = wantedArray[0].price;
+      // if (sting == "rent")
+      //   setValue(arr / 2);
+
+      // else {
+      setPurchaseTypeValue(wantedArray[0].purchaseType);
+      setValue(wantedArray[0]?.price);
+      setInventoryQuantity(wantedArray[0]?.quantity);
+      setGlobalValue(wantedArray[0].price);
+      setProductId(wantedArray[0].productId);
+      // }
+      // console.log("total amount ", valueof);
+    }
+  };
   useEffect(() => {
-   
+    // getValue();
+  }, [quantityValue]);
+
+
+
+  // Api calling 
+  useEffect(() => {
     CartData();
+    getCustomerName();
+    getProductName();
   }, []);
+
+
   async function CartData() {
     try {
       const response = await axios.get(
-        "http://localhost:8080/transaction/pageNo/0/noOfTransactions/100/sortBy/createdAt",{ headers: {"Authorization" : `Bearer ${token}`,
-        'Accept' : 'application/json',
-        'Content-Type': 'application/json'} }
+        "http://localhost:8080/transaction/pageNo/0/noOfTransactions/1000/sortBy/createdAt",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
       );
-      console.log("Cart returned the data: ", window.token);
-      setContacts(response.data);
-      // console.log(productData[1].description);
+
+      setContacts(response.data.response);
     } catch (error) {
-      console.log(">>>>>>>>>>> error is ",error);
+      console.log(">>>>>>>>>>> error is ", error);
     }
   }
 
-  const handleAddFormChange = (event) => {
-    event.preventDefault();
+  async function getCustomerName() {
+    try {
+      const response = await axios.get("http://localhost:8080/customers", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
 
-    const fieldName = event.target.getAttribute("name");
-    const fieldValue = event.target.value;
+      var options = response.data.response.map((item) => ({
+        value: item.customerId,
+        label: item.customerName,
+      }));
+      setCustomerName(options);
+    } catch (error) {
+      console.log(">>>>>>>>>>> error is ", error);
+    }
+  }
 
-    setAddformData(() => {
-      return { ...addFormData, [fieldName]: fieldValue };
-    });
+  async function getProductName() {
+    try {
+      const response = await axios.get("http://localhost:8080/allProducts", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
 
-    // const newFormData = { ...addFormData };
-    // newFormData[fieldName] = fieldValue;
+      setProductArray(response.data.response);
 
-    // setAddformData(newFormData);
+      var options = response.data.response.map((item) => ({
+        value: item.productId,
+        label: item.productName,
+      }));
+      setProductName(options);
+    } catch (error) {
+      console.log(">>>>>>>>>>> error is ", error);
+    }
+  }
+
+
+  // Value change form
+  const customerNameChange = (e) => {
+    const value = e.label;
+    setCustomer(value);
+  };
+  const productNameChange = (e) => {
+    const value = e.label;
+    setProduct(value);
+    getValue(value);
   };
 
-  const handleAddFormSubmit = (event) => {
-    event.preventDefault();
+  const quantityChange = (e) => {
+    const value = e.target.value;
 
+    setValue(value * globalValue);
+
+    setQuantity(value);
+
+    setQuantityValue(value);
+  };
+
+  const AmountChange = (e) => {
+    const value = e.target.value;
+    console.log(value);
+   
+    setAmount(value);
+  };
+  console.log({amount });
+
+  const purTypeChange = (e) => {
+    const value = e.target.value;
+    setpurchaseType(value);
+    
+  };
+  console.log({ purchaseType });
+
+
+ 
+
+  // Post request
+  const handleAddFormSubmit = (event) => {
+    
+    if (quantity <= inventoryQuantity) {
+      event.preventDefault();
     const newContact = {
-      
-      quantity: addFormData.quantity,
-      customerName: addFormData.customerName,
-      productName: addFormData.productName,
-      totalAmount:addFormData.totalAmount,
-      
+      quantity: quantity,
+      customerName: customer,
+      productName: product,
+      totalAmount: valueof,
+      purchaseType: purchaseType,
     };
 
     const newContacts = [...contacts, newContact];
     setContacts(newContacts);
-    const getCartData=async() =>  {
-      try {
-        const response = await axios.post(
-          "http://localhost:8080/createTransaction",newContact,{ headers: {"Authorization" : `Bearer ${token}`,
-          'Accept' : 'application/json',
-          'Content-Type': 'application/json'
-       } })
-        ;
-        console.log("Cart returned the data: ", window.token);
-        CartData();
+   
+   
+      const getCartData = async () => {
+     
+        try {
+          const response = await axios.post(
+            "http://localhost:8080/createTransaction",
+            newContact,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (response.data.statusCode == 200) {
+            toast("Transaction Added SuccessFully");
+          }
 
-        // console.log(productData[1].description);
-      } catch (error) {
-        console.log(">>>>>>>>>>> error is ",error);
-      }
+          CartData();
+        } catch (error) {
+          console.log(">>>>>>>>>>> error is ", error);
+        }
+      };
+
+      const putCartData = async () => {
+        try {
+          const response = await axios.put(
+            `http://localhost:8080/products/${productId}/quantity/subtract/${quantity}`,
+            { quantity, productId },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          console.log(response);
+
+          CartData();
+        } catch (error) {
+          console.log(">>>>>>>>>>> error is ", error);
+        }
+      };
+      getCartData();
+
+      putCartData();
     }
-    getCartData();
-  };
-  
 
+    else {
+      alert("Less Item In Inventory Than Demand")
+    }
+  
+  };
   const lastPostIndex = currentPage * postPerPage;
   const firPostIndex = lastPostIndex - postPerPage;
   const currentPost = contacts.slice(firPostIndex, lastPostIndex);
@@ -124,34 +268,33 @@ const FormData = () => {
       <Modal size="lg" isOpen={modal} toggle={() => setmodal(!modal)}>
         ;
         <ModalHeader style={{ color: "green" }}>
-          Add Your product here
+          Add Your Transaction
         </ModalHeader>
         <ModalBody>
           <form className="d-block p-2  " onSubmit={handleAddFormSubmit}>
             <div className="form-group">
-              <label for="exampleInputEmail1">Product Name:</label>
-              <input
-                type="text"
-                required="required"
-                name="productName"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Product Name "
-                onChange={handleAddFormChange}
+              <label for="exampleInputEmail1">Customer Name :</label>
+              <Select
+                options={customeName}
+                classNamePrefix="select"
+                defaultValue={"Custome Name"}
+                isSearchable={true}
+                name="customerName"
+                placeholder="Customer Name"
+                onChange={customerNameChange}
               />
             </div>
+
             <div className="form-group">
-              <label for="exampleInputEmail1">Customer Name :</label>
-              <input
-                type="text"
-                required="required"
-                name="customerName"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Customer Name "
-                onChange={handleAddFormChange}
+              <label for="exampleInputEmail1">Product Name :</label>
+              <Select
+                options={productName}
+                classNamePrefix="select"
+                defaultValue={"Product Name"}
+                isSearchable={true}
+                name="color"
+                placeholder="Product Name"
+                onChange={productNameChange}
               />
             </div>
 
@@ -164,23 +307,12 @@ const FormData = () => {
                 className="form-control"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
+                value={quantityValue}
                 placeholder="Quantity "
-                onChange={handleAddFormChange}
+                onChange={quantityChange}
               />
             </div>
-            {/* <div className="form-group">
-              <label for="exampleInputEmail1">Transaction Id: </label>
-              <input
-                type="number"
-                required="required"
-                name="transactionId"
-                className="form-control"
-                id="exampleInputEmail1"
-                aria-describedby="emailHelp"
-                placeholder="Transaction Id "
-                onChange={handleAddFormChange}
-              />
-            </div> */}
+
             <div className="form-group">
               <label for="exampleInputEmail1">Total Amount : </label>
               <input
@@ -189,12 +321,29 @@ const FormData = () => {
                 name="totalAmount"
                 className="form-control"
                 id="exampleInputEmail1"
+                value={valueof}
                 aria-describedby="emailHelp"
                 placeholder="Total Amount "
-                onChange={handleAddFormChange}
+                onChange={AmountChange}
               />
-</div>
+
+              <div>
+                <label for="cars">Purchase Type :</label>
+                <input
+                  type="text"
+                  required="required"
+                  name="purchaseType"
+                  className="form-control"
+                  id="exampleInputEmail1"
+                  value={purchaseTypeValue + " "}
+                  aria-describedby="emailHelp"
+                  placeholder="Purchase Type "
+                  onChange={purTypeChange}
+                />
+              </div>
+            </div>
             <button
+              style={{ borderRadius: "8px", padding: "3px" }}
               className="bg-dark text-white d-block mt-3"
               onClick={() => setmodal(false)}
             >
@@ -225,6 +374,7 @@ const FormData = () => {
           onClick={() => setmodal(true)}
         />
       </div>
+      <ToastContainer />
       <Table contacts={currentPost} />
       <Pagination
         totalPost={contacts.length}

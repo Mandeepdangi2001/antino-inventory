@@ -14,68 +14,79 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "./Pagination";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const NavIcon = styled.div`
   display: inline;
 `;
 
 const FormData = () => {
-  const token=localStorage.getItem('Token')
+  const token = localStorage.getItem("Token");
   const [contacts, setContacts] = useState([{}]);
+  const [contactsQuantity, setContactsQuantity] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(7);
   const [modal, setmodal] = useState(false);
+  const [quantityModal,setQuantityModal]=useState(false)
 
   const [addFormData, setAddformData] = useState({
     productName: "",
     productDescription: "",
     quantity: "",
     price: "",
-    gst:"",
-    category:"",
+    gst: "",
+    category: "",
+    vendor: "",
+    purchaseType: "",
 
     // createdAt: "",
     productId: "",
   });
 
-  // useEffect(() => {
-  //   axios.get('http://localhost:8080/product/pageNO/0/noOfItems/1')
-  //     .then(res => {
-  //       console.log(res.data);
-  //       setContacts(res.data);
+  // const [addFormDataQuantity, setAddformDataQuantity] = useState({
+  //   productId: "", 
+  //   quantity: "",
+  // });
+  const [productId, setProductId] = useState('');
+   const [quantity, setQuantity] = useState('');
 
-  //     });
 
-  // }, [])
-  // useEffect(() => {
-  
-    //   axios.get("http://localhost:8080/transactions/current-month/sales",{ headers: {"Authorization" : `Bearer ${window.token}`},  withCredentials: false })
-    //     .then(res => setMonthUserData(res.data.transactionDetails)
-    //     );
-    // }, []);
   useEffect(() => {
-    
     CartData();
+   
+
+
+  }, []);
+
+  useEffect(() => {
+   
+    
+    setContactsQuantity(contactsQuantity);
+    console.log(contactsQuantity);
+
   }, []);
   // console.log(contacts)
 
   async function CartData() {
     try {
-      const response =  await axios.get(
-        "http://localhost:8080/product/pageNO/0/noOfItems/1000",{ headers: {"Authorization" : `Bearer ${token}`,
-        'Accept' : 'application/json',
-        'Content-Type': 'application/json'} }
+      const response = await axios.get(
+        "http://localhost:8080/product/pageNO/0/noOfItems/1000",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
       );
       console.log("Cart returned the data: ", token);
-      console.log("data is" + JSON.stringify(response.data));
-      setContacts(response.data);
-
-     
+      console.log("data is" + JSON.stringify(response.data.response));
+      setContacts(response.data.response);
     } catch (error) {
-      console.log(">>>>>>>>>>> error is ",error);
+      console.log(">>>>>>>>>>> error is ", error);
     }
   }
-
- 
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
@@ -83,7 +94,7 @@ const FormData = () => {
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
 
-    setAddformData(() => {
+    setAddformData (() => {
       return { ...addFormData, [fieldName]: fieldValue };
     });
 
@@ -92,6 +103,25 @@ const FormData = () => {
 
     // setAddformData(newFormData);
   };
+
+  // const handleAddFormQuantityChange = (event) => {
+  //   event.preventDefault();
+
+  //   const fieldName = event.target.getAttribute("name");
+  //   console.log(fieldName)
+  //   const fieldValue = event.target.value;
+    
+
+  //   setAddformDataQuantity(() => {
+  //     return { ...addFormDataQuantity, [fieldName]: fieldValue };
+  //   });
+
+    // const newFormData = { ...addFormData };
+    // newFormData[fieldName] = fieldValue;
+
+    // setAddformData(newFormData);
+  // };
+  
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
@@ -103,40 +133,104 @@ const FormData = () => {
       price: addFormData.price,
       gst: addFormData.gst,
       category: addFormData.category,
+      vendor: addFormData.vendor,
+      purchaseType: addFormData.purchaseType,
 
       // createdAt: addFormData.createdAt,
       productId: addFormData.productId,
     };
 
+
     const newContacts = [...contacts, newContact];
     setContacts(newContacts);
-     
-  const getCartData= async () =>  {
+    // console.log(newContact);
+
+    const getCartData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8080/addproduct",newContact,{ headers: {"Authorization" : `Bearer ${token}`,
-          'Accept' : 'application/json',
-          'Content-Type': 'application/json'
-       } })
-        ;
-        // console.log("Cart returned the data: ", window.token);
-       
+          "http://localhost:8080/addproduct",
+          newContact,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.data.statusCode == 200) {
+          toast("Product Added Successfully");
+        }
+        console.log(JSON.stringify(response.data.statusCode));
         console.log("data is " + JSON.stringify(response.data.response));
-        // setContacts(...contacts,response.data)
+
         CartData();
-      // setContacts(JSON.stringify(response.data))
-        
       } catch (error) {
-        console.log(">>>>>>>>>>> error is ",error);
+        console.log(">>>>>>>>>>> error is ", error);
       }
-    }
+    };
     getCartData();
-  };  
+  };
+  const productIdChange = (e) => {
+    setProductId(e.target.value)
+    console.log(e.target.value);
+ }
+ const quantityChange = (e) => {
+  setQuantity(e.target.value)
+  console.log(e.target.value);
+}
+  const handleAddFormQuantitySubmit = (event) => {
+    event.preventDefault();
+    const newContact = {
+      productId: productId,
+    
+      quantity:quantity,
+    
+
+      
+    
+    };
+    
+    
+    // const newContacts = [...contactsQuantity, newContact];
+   
+    // setContactsQuantity(newContacts);
+
+
+    const getCartData = async () => {
+      try {
+        const response = await axios.put(
+          `http://localhost:8080/products/${productId}/quantity/add/${quantity}`,
+          newContact,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+       
+        // getCartData();
+        CartData();
+
+      } catch (error) {
+        console.log(">>>>>>>>>>> error is ", error);
+      }
+    };
+    getCartData();
+
+   
+
+
+  }
+
+
   const lastPostIndex = currentPage * postPerPage;
   const firPostIndex = lastPostIndex - postPerPage;
-  const currentPost = contacts.slice(firPostIndex, lastPostIndex);
+    const currentPost = contacts.slice(firPostIndex, lastPostIndex);
   return (
-    <div style={{ marginTop: "11vh" }}>
+    <div style={{ marginTop: "11vh" }} >
       <Modal size="lg" isOpen={modal} toggle={() => setmodal(!modal)}>
         <ModalHeader
           style={{
@@ -190,7 +284,7 @@ const FormData = () => {
                 onChange={handleAddFormChange}
               />
             </div>
-           
+
             <div className="form-group">
               <label for="exampleInputEmail1">Category :</label>
               <input
@@ -212,7 +306,7 @@ const FormData = () => {
                 required="required"
                 name="price"
                 className="form-control"
-                id='price'
+                id="price"
                 aria-describedby="emailHelp"
                 placeholder="price "
                 onChange={handleAddFormChange}
@@ -247,8 +341,40 @@ const FormData = () => {
               />
             </div>
 
+            <div className="form-group">
+              <label for="exampleInputEmail1">Vendor :</label>
+              <input
+                type="text"
+                required="required"
+                name="vendor"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Vendor  "
+                onChange={handleAddFormChange}
+              />
+            </div>
+            <div>
+              <label for="cars">Purchase Type:</label>
+
+              <select
+                type="text"
+                required="required"
+                name="purchaseType"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Purchase Type "
+                onChange={handleAddFormChange}
+              >
+                <option value="rent">rent</option>
+                <option value="buy">buy</option>
+              </select>
+            </div>
+
             <button
-              className="bg-dark text-white d-block mt-3 rounded"
+              style={{ borderRadius: "8px", padding: "3px" }}
+              className="bg-dark text-white d-block mt-3 "
               onClick={() => setmodal(false)}
             >
               Submit
@@ -257,33 +383,104 @@ const FormData = () => {
         </ModalBody>
       </Modal>
 
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <button
-          className="btn mt-3 d-inline justify-last "
-          style={{ fontSize: "1.5rem" }}
-        >
-          Add Custom Inventory{" "}
-        </button>
-        <FontAwesomeIcon
-          icon={faPlus}
-          size="2x"
+      <Modal size="lg" isOpen={quantityModal} toggle={() => setQuantityModal(!modal)}>
+        <ModalHeader
           style={{
-            paddingLeft: "2px",
-            marginTop: "27px",
-            background: "navy",
-            color: "white",
-            borderRadius: "5px",
-            cursor: "pointer",
+            color: "green",
+            display: "flex",
+            justifyContent: "center",
+            fontSize: "30px",
           }}
-          onClick={() => setmodal(true)}
-        />
+        >
+           Submit Product Quantity
+        </ModalHeader>
+
+        <ModalBody>
+        <form className="d-block p-2  " onSubmit={handleAddFormQuantitySubmit}>
+        <div className="form-group">
+        <label for="exampleInputEmail1">Product Id:</label>
+              <input
+                type="number"
+                required="required"
+                name="productId"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Product Id "
+                onChange={productIdChange}
+            />
+            </div>
+          
+          <div className="form-group">
+              <label for="exampleInputEmail1">Quantity :</label>
+              <input
+                type="number"
+                required="required"
+                name="quantity"
+                className="form-control"
+                id="exampleInputEmail1"
+                aria-describedby="emailHelp"
+                placeholder="Quantity "
+                onChange={quantityChange}
+              />
+          </div>
+          <button
+              style={{ borderRadius: "8px", padding: "3px" }}
+              className="bg-dark text-white d-block mt-3 "
+              onClick={() => setQuantityModal(false)}
+            >
+              Submit
+          </button>
+          </form>
+           </ModalBody>
+      </Modal>
+
+      <div style={{ display: "flex", justifyContent: "space-around" }}>
+        <div>
+          <button className="btn mb-3 " style={{ fontSize: "1.3rem" }}>
+            Add Custom Inventory
+          </button>
+          <FontAwesomeIcon
+            icon={faPlus}
+            size="2x"
+            style={{
+              paddingLeft: "4px",
+              marginTop: "27px",
+              background: "navy",
+              color: "white",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+            onClick={() => setmodal(true)}
+          />
+        </div>
+        <div>
+          <button className="btn mb-3" style={{ fontSize: "1.3rem" }}>
+            Submit Product Quantity{" "}
+          </button>
+          <FontAwesomeIcon
+            icon={faPlus}
+            size="2x"
+            style={{
+              paddingLeft: "2px",
+              marginTop: "27px",
+              background: "navy",
+              color: "white",
+              borderRadius: "5px",
+              cursor: "pointer",
+            }}
+            onClick={() => setQuantityModal(true)}
+          />
+        </div>
       </div>
-     
+      <ToastContainer />
       <Table contacts={currentPost} />
-      <Pagination totalPost={contacts.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
-     
+      <Pagination
+        totalPost={contacts.length}
+        postPerPage={postPerPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
-
-        };
+};
 export default FormData;

@@ -7,13 +7,15 @@ import * as AiIcons from "react-icons/ai";
 import data from "./mock-data.json";
 import styled from "styled-components";
 import axios from "axios";
-import EmployeeTAble from "./EmployeeTAble"
+import EmployeeTAble from "./EmployeeTAble";
 import "./EmployeeForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "./Pagination";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NavIcon = styled.div`
   display: inline;
@@ -25,14 +27,15 @@ const FormData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(7);
   const [modal, setmodal] = useState(false);
-  const token = localStorage.getItem('Token');
+  const [emailError, setEmailError] = useState();
+  const [phoneError, setPhoneError] = useState();
+  const token = localStorage.getItem("Token");
 
   const [addFormData, setAddformData] = useState({
     userName: "",
     userEmail: "",
-    phoneNumber:"",
-    address:"",
-
+    phoneNumber: "",
+    address: "",
 
     // createdAt: "",
     employeeId: "",
@@ -47,25 +50,29 @@ const FormData = () => {
   //     });
 
   // }, [])
- 
+
   useEffect(() => {
-   
     CartData();
   }, []);
-  
 
   async function CartData() {
     try {
       const response = await axios.get(
-        " http://localhost:8080/pagingAndSortingUser/0/100",{ headers: {"Authorization" : `Bearer ${token}`,
-        'Accept' : 'application/json',
-        'Content-Type': 'application/json'} }
+        " http://localhost:8080/pagingAndSortingUser/0/100",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
       );
-      console.log("Cart returned the data: ", window.token);
-      setContacts(response.data.content);
+      console.log(response.data.response.content);
+      // console.log("Cart returned the data: ", window.token);
+      setContacts(response.data.response.content);
       // console.log(productData[1].description);
     } catch (error) {
-      console.log(">>>>>>>>>>> error is ",error);
+      console.log(">>>>>>>>>>> error is ", error);
     }
   }
   const handleAddFormChange = (event) => {
@@ -86,49 +93,84 @@ const FormData = () => {
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
+    if (addFormData.userEmail !== "") {
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (emailRegex.test(addFormData.userEmail)) {
+        setEmailError("");
+        // setEmailSuccess(true);
+      } else {
+        toast(
+          "Invalid  Email!!!!  You have to fill form again with correct Email"
+        );
+      }
+    } else {
+      setEmailError("Email Required");
+    }
+    if (addFormData.phoneNumber !== "") {
+      const phoneRegex = /^(0|91)?[6-9][0-9]{9}$/;
+      if (phoneRegex.test(addFormData.phoneNumber)) {
+        setPhoneError("");
+        // setEmailSuccess(true);
+      } else {
+        toast(
+          "Invalid Phone Number!!!!  You have to fill form again with correct Phone Number"
+        );
+      }
+    } else {
+      setPhoneError("Phone Required Required");
+    }
 
     const newContact = {
       userName: addFormData.userName,
       userEmail: addFormData.userEmail,
-      password:addFormData.password,
+      password: addFormData.password,
       address: addFormData.address,
       phoneNumber: addFormData.phoneNumber,
-      role: "S"
+      role: "S",
     };
 
     const newContacts = [...contacts, newContact];
     setContacts(newContacts);
-    const getCartData=async() =>  {
+    const getCartData = async () => {
       try {
         const response = await axios.post(
-          "http://localhost:8080/register/employee", newContact, {
+          "http://localhost:8080/register/employee",
+          newContact,
+          {
             headers: {
-              "Authorization": `Bearer ${token}`,
-              'Accept': 'application/json',
-              'Content-Type': 'application/json'
-            }
-        });
-        CartData();
-        
-        if (response.data.statusCode == "200") {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-          alert("staff registered successfully");
+        CartData();
+
+        if (response.data.statusCode == "200") {
+          toast("staff registered successfully");
           // setToken(true);
-          navigate("/employee");
-        } else {
-          alert("staff already exist");
+        } else if (
+          response.data.statusCode == "400" ||
+          response.data.statusCode == "401" ||
+          response.data.statusCode == "402" ||
+          response.data.statusCode == "403" ||
+          response.data.statusCode == "404" ||
+          response.data.statusCode == "405"
+        ) {
+          toast("staff already exist!!!");
         }
         console.log("Cart returned the data: ", window.token);
-        console.log("data is "+response.response);
+        console.log("data is " + response.response);
         //setContacts(response.response);
         // console.log(productData[1].description);
       } catch (error) {
-        console.log(">>>>>>>>>>> error is ",error);
+        console.log(">>>>>>>>>>> error is ", error);
       }
-    }
+    };
     getCartData();
-  };  
-  console.log(contacts);
+  };
+
   const lastPostIndex = currentPage * postPerPage;
   const firPostIndex = lastPostIndex - postPerPage;
   const currentPost = contacts.slice(firPostIndex, lastPostIndex);
@@ -232,8 +274,8 @@ const FormData = () => {
               />
             </div>
 
-
             <button
+              style={{ borderRadius: "8px", padding: "3px" }}
               className="bg-dark text-white d-block mt-3 rounded"
               onClick={() => setmodal(false)}
             >
@@ -248,7 +290,7 @@ const FormData = () => {
           className="btn mt-3 d-inline justify-last "
           style={{ fontSize: "1.5rem" }}
         >
-         Add Employee
+          Add Employee
         </button>
         <FontAwesomeIcon
           icon={faPlus}
@@ -264,10 +306,15 @@ const FormData = () => {
           onClick={() => setmodal(true)}
         />
       </div>
-     
+      <ToastContainer />
+
+      <ToastContainer />
       <EmployeeTAble contacts={currentPost} />
-      <Pagination totalPost={contacts.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
-     
+      <Pagination
+        totalPost={contacts.length}
+        postPerPage={postPerPage}
+        setCurrentPage={setCurrentPage}
+      />
     </div>
   );
 };

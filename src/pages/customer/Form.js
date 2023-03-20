@@ -12,6 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Pagination from './Pagination';
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const NavIcon = styled.div`
   display: inline;
@@ -22,6 +24,8 @@ const FormData = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [postPerPage, setPostPerPage] = useState(7);
   const token = localStorage.getItem('Token');
+  const [emailError, setEmailError] = useState();
+  const [phoneError, setPhoneError] = useState();
 
   // useEffect(() => {
   //   axios.get('https://mocki.io/v1/12336cc3-8873-4c59-9fa3-3d2870207bd9')
@@ -44,7 +48,7 @@ const FormData = () => {
         'Content-Type': 'application/json'} }
       );
       console.log("Cart returned the data: ", window.token);
-      setContacts(response.data);
+      setContacts(response.data.response);
       // console.log(productData[1].description);
     } catch (error) {
       console.log(">>>>>>>>>>> error is ",error);
@@ -62,6 +66,7 @@ const FormData = () => {
 
   const handleAddFormChange = (event) => {
     event.preventDefault();
+   
 
     const fieldName = event.target.getAttribute("name");
     const fieldValue = event.target.value;
@@ -78,6 +83,34 @@ const FormData = () => {
 
   const handleAddFormSubmit = (event) => {
     event.preventDefault();
+    if (addFormData.customerEmail !== "") {
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
+      if (emailRegex.test(addFormData.customerEmail)) {
+        setEmailError("");
+        // setEmailSuccess(true);
+      } else {
+        toast("Invalid  Email!!!!  You have to fill form again with correct Email"
+         );
+      
+      }
+    } else {
+      setEmailError("Email Required");
+    }
+    if (addFormData.customerPhone !== "") {
+      const phoneRegex = /^(0|91)?[6-9][0-9]{9}$/;
+      if (phoneRegex.test(addFormData.customerPhone)) {
+        setPhoneError("");
+        // setEmailSuccess(true);
+      } else {
+        toast("Invalid Phone Number!!!!  You have to fill form again with correct Phone Number"
+         );
+      
+      }
+    } else {
+      setPhoneError("Phone Required Required");
+    }
+
+
 
     const newContact = {
       customerId: addFormData.customerId,
@@ -96,7 +129,15 @@ const FormData = () => {
           'Accept' : 'application/json',
           'Content-Type': 'application/json'
        } })
-        ;
+          ;
+          if (response.data.statusCode == "200") {
+
+            toast("Customer Added successfully");
+            // setToken(true);
+           
+        }
+        
+        
         console.log("Cart returned the data: ", window.token);
         console.log("data is " + response);
         CartData();
@@ -115,9 +156,9 @@ const FormData = () => {
   return (
     <div style={{ marginTop: "11vh" }}>
       <Modal size="lg" isOpen={modal} toggle={() => setmodal(!modal)}>
-        ;
+        
         <ModalHeader style={{ color: "green" }}>
-          Add Your product here
+          Add Customer here
         </ModalHeader>
         <ModalBody>
           <form className="d-block p-2" onSubmit={handleAddFormSubmit}>
@@ -188,8 +229,10 @@ const FormData = () => {
                 onChange={handleAddFormChange}
               />
             </div>
+           
 
             <button
+               style={{borderRadius:"8px",padding:"3px"}}
               className="bg-dark text-white d-block mt-3"
               onClick={() => setmodal(false)}
             >
@@ -220,6 +263,9 @@ const FormData = () => {
           onClick={() => setmodal(true)}
         />
       </div>
+      <ToastContainer
+
+/>
       <Table contacts={currentPost} />
       <Pagination totalPost={contacts.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
     </div>

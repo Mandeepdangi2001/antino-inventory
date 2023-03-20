@@ -27,7 +27,7 @@ function RouteFiles() {
   return (
     <div>
       <BrowserRouter>
-        <Routes>
+        <Routes >
           <Route
             path="/"
             element={
@@ -36,6 +36,7 @@ function RouteFiles() {
           ></Route>
 
           <Route
+          
             exact
             path="/dashboard"
             element={<DashBoard /> }

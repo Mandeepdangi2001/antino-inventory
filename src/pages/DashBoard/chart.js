@@ -45,12 +45,53 @@ const LineChart = () => {
         backgroundColor: "yellow",
         borderColor: "red",
         tension: 0.4,
+        
+
       },
 
     ],
   });
 
- 
+  const options = {
+  
+    type: 'line',
+    data: data,
+    title: {
+      display: true,
+      text:"Monthly Transactions"
+    },
+   
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Transactions",
+            padding: {
+             
+                top: 10,
+                bottom: 30
+            
+            },
+            fontSize:2
+          }
+        },
+        x: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: "Dates of Month",
+            padding: {
+             
+              top: 30,
+              bottom: 30
+          
+          },
+          }
+        }
+      }
+    
+  }
  
   useEffect(() => {
     async function getCartData() {
@@ -66,14 +107,14 @@ const LineChart = () => {
           }
         );
         setData({
-          labels: response.data.graph.map((item) => +item.date),
+          labels: response.data.response.graph.map((item) => +item.date),
           datasets: [
             {
               label: JSON.stringify(month+"  Transactions"),
-              data: response?.data.graph.map((item) => +item.sales),
-              backgroundColor: "blue",
+              data: response?.data.response.graph.map((item) => +item.sales),
+              backgroundColor: "yellow",
               borderColor: "red",
-              tension: 0.4,
+              tension: 0.5,
               Filler: true,
             },
           ],
@@ -109,7 +150,7 @@ const LineChart = () => {
   // }, []);
   return (
     <div>
-      <Line data={data}  style={{ width: "700px", height: "350px" }}></Line>
+      <Line data={data} options={options}  style={{ width: "57vw", height: "41vh" }}></Line>
     </div>
   );
 };
