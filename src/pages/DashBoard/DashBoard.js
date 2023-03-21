@@ -14,6 +14,7 @@ const DashBoard = () => {
   const [dailyTransaction, setDailyTransactions] = useState([]);
   const [currentDate, setCurrentDate] = useState();
   const [max, setMax] = useState(0);
+  const [listArray, setListArray] = useState();
   // const[size,setSize]=useState("");
 
   const [size, setSize] = useState();
@@ -32,9 +33,49 @@ const DashBoard = () => {
         );
         // console.log("Cart returned the data: ", window.token);
 
-        console.log(response.data.response.transactionDetails);
+        // console.log(response.data.response.transactionDetails);
         setSize(response.data.response.size);
         setMonthUserData(response.data.response.transactionDetails);
+        if (monthUserData.length <= 5) {
+        
+
+          const arrayList = [];
+         
+          monthUserData.map((item) => {
+            arrayList.push(item);
+           
+         })
+          setListArray(arrayList);
+         
+          // console.log(listArray);
+          
+         
+        }
+        else if(monthUserData.length>5) {
+          var length = monthUserData.length;
+          const listStartPoint = length - 5;
+          const arrayList = [];
+          const arrayList2 = [];
+
+          for (let i = listStartPoint; i < length; i++)
+          {
+            arrayList.push(monthUserData[i].createdAt);
+            arrayList2.push(monthUserData[i].totalAmount);
+            
+          
+           
+          }
+          setListArray(arrayList);
+          
+          console.log(arrayList2);
+          
+          
+        }
+
+        
+
+      
+
         getTransactionData();
       } catch (error) {
         console.log(">>>>>>>>>>> error is ", error);
@@ -42,6 +83,11 @@ const DashBoard = () => {
     }
     getCartData();
   }, []);
+
+
+
+  
+
   const getTransactionData = () => {
     const totalAmountArray = monthUserData.map((item, index) => {
       return item.totalAmount;
@@ -54,6 +100,7 @@ const DashBoard = () => {
     }
     let maximum = Math.max(...totalAmountArray);
     setMax(maximum);
+    
     setTotalAmountDaily(result);
 
   }
@@ -81,16 +128,18 @@ const DashBoard = () => {
 
       <div
         className="dashBoard-charts"
-        style={{ display: "flex", justifyContent: "left" }}
+        style={{ display: "flex", justifyContent: "center" }}
       >
         <LineChart className="dashBoard-monthChart" />
-      
+       
       </div>
+        
+  
       <div
         style={{
           display: "flex",
-          justifyContent: "left",
-          marginLeft:"280px"
+          justifyContent: "center",
+        
          
         }}
       >
@@ -98,8 +147,8 @@ const DashBoard = () => {
           
           style={{
             borderRadius: "8px",
-            background: "black",
-            marginLeft: "90px",
+            background: "navy",
+            marginLeft: "100px",
             marginBottom:"2px",
             cursor: "pointer",
             padding: "0.35rem",

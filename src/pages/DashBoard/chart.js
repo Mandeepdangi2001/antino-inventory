@@ -110,7 +110,7 @@ const LineChart = () => {
           labels: response.data.response.graph.map((item) => +item.date),
           datasets: [
             {
-              label: JSON.stringify(month+"  Transactions"),
+              label: (month +" Transactions"),
               data: response?.data.response.graph.map((item) => +item.sales),
               backgroundColor: "yellow",
               borderColor: "red",
