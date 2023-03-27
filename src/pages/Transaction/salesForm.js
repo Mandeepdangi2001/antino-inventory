@@ -45,37 +45,12 @@ const FormData = () => {
   const token = localStorage.getItem("Token");
 
   const [modal, setmodal] = useState(false);
-  console.log(valueof, "uhjjsdsud value of ");
+ 
 
-  const getValue = (value) => {
-    {
-      // console.log(value);
-      const wantedArray = productArray?.filter(
-        (item) => value == item.productName
-      );
 
-      // console.log(wantedArray);
-      //  console.log();
-      // alert(wantedArray[0].price);
-      // alert(amount);
+  // for selecting default value
 
-      // const arr = wantedArray[0].price;
-      // if (sting == "rent")
-      //   setValue(arr / 2);
 
-      // else {
-      setPurchaseTypeValue(wantedArray[0].purchaseType);
-      setValue(wantedArray[0]?.price);
-      setInventoryQuantity(wantedArray[0]?.quantity);
-      setGlobalValue(wantedArray[0].price);
-      setProductId(wantedArray[0].productId);
-      // }
-      // console.log("total amount ", valueof);
-    }
-  };
-  useEffect(() => {
-    // getValue();
-  }, [quantityValue]);
 
 
 
@@ -147,7 +122,46 @@ const FormData = () => {
       console.log(">>>>>>>>>>> error is ", error);
     }
   }
+  // useEffect(() => {
+  //   if (product == "")
+  //   {
+  //     console.log("Hello")
+  //   }
+  //   else {
+  //     getValue(product)
+  //   }
+   
 
+  // }, [product]);
+
+
+  const getValue = (value) => {
+    {
+      
+      const wantedArray = productArray?.filter(
+        (item) => value == item.productName
+      );
+      // console.log(wantedArray);
+
+
+
+      setGlobalValue(wantedArray[0].price);
+      console.log(globalValue, "dfghfdsfgfd");
+      setPurchaseTypeValue(wantedArray[0].purchaseType)
+      console.log(purchaseTypeValue,"fdghfdsfgdgg");
+      setpurchaseType(wantedArray[0].purchaseType)
+      console.log(purchaseType,"dfdgvsdfgf");
+      setInventoryQuantity(wantedArray[0].quantity)
+
+      
+
+
+
+    
+ 
+     
+    }
+  };
 
   // Value change form
   const customerNameChange = (e) => {
@@ -158,32 +172,36 @@ const FormData = () => {
     const value = e.label;
     setProduct(value);
     getValue(value);
-  };
+ };
 
   const quantityChange = (e) => {
     const value = e.target.value;
-
+     
+    setQuantity(value);
+    setQuantityValue(value);
     setValue(value * globalValue);
 
-    setQuantity(value);
 
-    setQuantityValue(value);
   };
 
   const AmountChange = (e) => {
     const value = e.target.value;
-    console.log(value);
+   
    
     setAmount(value);
+    // console.log(value)
+    // console.log(amount);
   };
-  console.log({amount });
+ 
 
   const purTypeChange = (e) => {
     const value = e.target.value;
+    console.log(value);
     setpurchaseType(value);
+    console.log(purchaseType)
     
   };
-  console.log({ purchaseType });
+
 
 
  
@@ -313,33 +331,50 @@ const FormData = () => {
               />
             </div>
 
-            <div className="form-group">
+           
+
+                   <div className="form-group">
               <label for="exampleInputEmail1">Total Amount : </label>
-              <input
+
+              <select
                 type="number"
                 required="required"
                 name="totalAmount"
                 className="form-control"
                 id="exampleInputEmail1"
-                value={valueof}
+                
                 aria-describedby="emailHelp"
                 placeholder="Total Amount "
                 onChange={AmountChange}
-              />
+              >
+                 <option value="none" selected disabled >--Select--</option>
+                <option value="valueof">{ valueof}</option>
+                
+              </select>
+          
 
-              <div>
-                <label for="cars">Purchase Type :</label>
-                <input
-                  type="text"
-                  required="required"
-                  name="purchaseType"
-                  className="form-control"
-                  id="exampleInputEmail1"
-                  value={purchaseTypeValue + " "}
-                  aria-describedby="emailHelp"
-                  placeholder="Purchase Type "
-                  onChange={purTypeChange}
-                />
+
+
+              <div className="form-group">
+              <label for="exampleInputEmail1">Purchase Type : </label>
+
+              <select
+                type="text"
+                required="required"
+                name="purchaseType"
+                className="form-control"
+                id="exampleInputEmail1"
+                
+                aria-describedby="emailHelp"
+                placeholder="Purchase Type: "
+                onChange={purTypeChange}
+              >
+                 <option value="none" selected disabled >--Select--</option>
+                <option value="purchaseType">{purchaseType}</option>
+                
+              </select>
+          
+
               </div>
             </div>
             <button

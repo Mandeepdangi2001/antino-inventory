@@ -1,11 +1,23 @@
 import React, { useEffect, useState } from "react";
-import "./login.css";
+// import "./login.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import Book from "./img/Book_2.jpg"
+import Logo from "./img/logo.png"
 
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {
+  CardWrapper,
+  CardHeader,
+  CardHeading,
+  CardBody,
+  CardFieldset,
+ 
+  CardButton,
+  CardLink,
+} from "./Style";
 
 const Login = ({
   option,
@@ -43,11 +55,7 @@ const Login = ({
   //   }
   // }, [token]);
 
-  const handleEmail = (e) => {
-    setsuccessMessage("");
-    setEmailError("");
-    handelEmailChange(e.target.value);
-  };
+
   const handlePassword = (e) => {
     setPasswordError("");
     setsuccessMessage("");
@@ -62,17 +70,6 @@ const Login = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (emailChange !== "") {
-      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-      if (emailRegex.test(emailChange)) {
-        setEmailError("");
-        setEmailSuccess(true);
-      } else {
-        setEmailError("Invalid Email");
-      }
-    } else {
-      setEmailError("Email Required");
-    }
     if (passwordChange !== "") {
       const passwordLength = passwordChange.length;
       if (passwordLength < 8) {
@@ -94,193 +91,130 @@ const Login = ({
     } else {
       setUserNameError("Name Required");
     }
-    if (
-      passwordSuccess === true &&
-      userSuccess === true &&
-      option === false &&
-      emailSuccess === true
-    ) {
-      const res = await axios
-        .post("http://localhost:8080/register", {
-          userName: userName,
-          userEmail: emailChange,
-          password: passwordChange,
-          role: "O",
-        })
-        .then((res) => {
-          console.log("dgwaddawd" + res.data.statusCode);
-          if (res.data.statusCode == "200") {
-            toast("user registered successfully");
-            navigate("/");
-          } else {
-           
-            toast.error("owner already exist!!!", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              });
-          }
-        })
-        .catch((e) => console.log("Error aa gyi", e));
-
-      setUsername("");
-      handelEmailChange("");
-      handlePasswordChange("");
-    }
-
-    if (passwordSuccess === true && option === true && userSuccess === true) {
-      const res = await axios
-        .post("http://localhost:8080/login", {
-          userName: userName,
-          password: passwordChange,
-        })
-        .then((res) => {
-          console.log("dgwaddawd" + res.data.st);
+  
+    const res = await axios
+      .post("http://localhost:8080/login", {
+        userName: userName,
+        password: passwordChange,
+      })
+      .then((res) => {
+        console.log("dgwaddawd" + res.data.st);
           
-          if (res.data.statusCode == "200") {
+        if (res.data.statusCode == "200") {
            
-            window.userName = res.data.response.userName;
-            window.role = res.data.response.role;
-            window.token = res.data.response.token;
-            localStorage.setItem("Token", res.data.response.token)
-            localStorage.setItem("UserName",res.data.response.userName)
+          window.userName = res.data.response.userName;
+          window.role = res.data.response.role;
+          window.token = res.data.response.token;
+          localStorage.setItem("Token", res.data.response.token)
+          localStorage.setItem("UserName", res.data.response.userName)
+          
             
-            console.log("token..."+window.role)
-            // alertFunction();
-            alert("Login Successfully!!")
+          console.log("token..." + window.role)
+          // alertFunction();
+          alert("Login Successfully!!")
             
-            // setToken(true);
+          // setToken(true);
             
-              navigate("/dashboard");
+          navigate("/dashboard");
           
              
-          } else {
+        } else {
        
-            toast.error("Incorrect username or password", {
-              position: "top-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              });
-          }
+          toast.error("Incorrect username or password", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
          
-        })
-        .catch((e) => console.log("Error aa gyi", e));
-      console.log(passwordSuccess, emailSuccess, option);
+      })
+      .catch((e) => console.log("Error aa gyi", e));
+    console.log(passwordSuccess, emailSuccess, option);
 
-      handelEmailChange("");
-      handlePasswordChange("");
-    }
-  };
-  if (option === false) {
-    return (
-      <div>
-        <form className="account-form" onSubmit={handleSubmit}>
-          <div
-            className={
-              "account-form-fields " + (option === true ? "sign-in" : "sign-up")
-            }
-          >
-            <input
-              id="UserName"
-              name="UserName"
-              type="text"
-              placeholder="UserName"
-              className="form-control custom-input"
-              onChange={handleUserName}
-              value={userName}
-            />
-            {userNameError && <div className="error-msg">{userNameError}</div>}
-            <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="E-mail"
-              className="form-control custom-input"
-              value={emailChange}
-              onChange={handleEmail}
-            />
-            {emailError && <div className="error-msg">{emailError}</div>}
-            <input
-              id="password"
-              name="password"
-              value={passwordChange}
-              type="password"
-              placeholder="Password"
-              className="form-control custom-input"
-              onChange={handlePassword}
-            />
-
-            {passwordError && <div className="error-msg">{passwordError}</div>}
-          </div>
-          <button className="btn-submit-form" type="submit">
-            {option === true ? "Sign in" : "Sign up"}
-          </button>
-        </form>
-        <ToastContainer
-position="top-right"
-autoClose={5000}
-hideProgressBar={false}
-newestOnTop={false}
-closeOnClick
-rtl={false}
-pauseOnFocusLoss
-draggable
-pauseOnHover
-theme="light"
-/>
-{/* Same as */}
-<ToastContainer />
-      </div>
-    );
+    handelEmailChange("");
+    handlePasswordChange("");
   }
-
+  
+  
   return (
     <div>
-      <form className="account-form" onSubmit={handleSubmit}>
-        <div
-          className={
-            "account-form-fields " + (option === true ? "sign-in" : "sign-up")
-          }
-        >
-          <h3 className="h33">Welcome Back</h3>
-          <input
-            id="UserName"
-            name="UserName"
-            type="text"
-            placeholder="UserName"
-            className="form-control custom-input"
-            onChange={handleUserName}
-            value={userName}
-          />
-          {userNameError && <div className="error-msg">{userNameError}</div>}
-          <input
-            id="password"
-            name="password"
-            value={passwordChange}
-            type="password"
-            placeholder="Password"
-            className="form-control custom-input"
-            onChange={handlePassword}
-          />
+      <img src={Logo} alt="" />
+      <div style={{ display: "flex", justifyContent: "center", marginLeft: "60px", marginTop: "25px" }}>
+        <img src={Book} style={{ width: "50%", margin: "20px", borderRadius: "5px" }} />
+        <form className="account-form" onSubmit={handleSubmit}  >
+      
+          <CardWrapper>
+            <CardHeader>
+          
+              <CardHeading>
+                <h1 style={{ fontSize: "1.5rem", fontWeight: "bold" }}>Welcome Back</h1>
+              </CardHeading>
+            </CardHeader>
+        
+            <CardHeader>
+          
+              <CardHeading>Sign In</CardHeading>
+            </CardHeader>
+            <CardBody>
+          
+              <CardFieldset>
+            
+                <input
+                  id="UserName"
+                  name="UserName"
+                  type="text"
+                  placeholder="UserName"
+                  className="form-control custom-input"
+                  onChange={handleUserName}
+                  value={userName}
+                />
+                {userNameError && <div className="error-msg">{userNameError}</div>}
 
-          {passwordError && <div className="error-msg">{passwordError}</div>}
-        </div>
-        <button className="btn-submit-form" type="submit">
-          {option === true ? "Sign in" : "Sign up"}
-        </button>
-      </form>
-      <ToastContainer />
+              </CardFieldset>
+         
+              <CardFieldset>
+            
+                <input
+                  id="password"
+                  name="password"
+                  value={passwordChange}
+                  type="password"
+                  placeholder="Password"
+                  className="form-control custom-input"
+                  onChange={handlePassword}
+                />
+
+                {passwordError && <div className="error-msg">{passwordError}</div>}
+      
+              </CardFieldset>
+         
+        
+              <CardFieldset>
+            
+                <CardButton type="submit">Sign In</CardButton>
+              </CardFieldset>
+              <CardFieldset>
+            
+                <Link to="/SignUp">
+              
+                  <CardLink>New User ?</CardLink>{" "}
+                </Link>
+              </CardFieldset>
+            </CardBody>
+          </CardWrapper>
+        </form>
+ 
+       
+
+        <ToastContainer />
+      </div>
     </div>
-  );
-};
-export default Login;
+  )
+}
+    export default Login;
+

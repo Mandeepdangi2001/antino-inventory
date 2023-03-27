@@ -367,8 +367,9 @@ const FormData = () => {
                 placeholder="Purchase Type "
                 onChange={handleAddFormChange}
               >
-                <option value="rent">rent</option>
-                <option value="buy">buy</option>
+                 <option value="none" selected disabled >--Select--</option>
+                <option value="rent">Rent</option>
+                <option value="buy">Buy</option>
               </select>
             </div>
 

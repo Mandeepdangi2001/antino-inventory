@@ -8,7 +8,7 @@
 }
 .wholePage{
 	font-family: Nunito, Roboto, Arial, sans-serif;
-	background-color:aqua;
+	
 	height: 100vh;
 	opacity: 1;
 }
@@ -45,7 +45,7 @@
 	text-align: center;
 	color:white;
 	width: 25vw;
-	background-color: blueviolet;
+	background-color: navy;
 	border: 2px solid black;
 	border-radius: 10px;
 	height: 75vh;
@@ -182,8 +182,8 @@ justify-content: space-between;
 		.options li:last-of-type{
 			margin-left: auto
 	}
-	form{
-		background: blueviolet;
+	.account-form{
+		background:navy ;
 		
 
 	}

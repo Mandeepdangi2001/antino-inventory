@@ -162,8 +162,8 @@ const FormData = () => {
         </ModalHeader>
         <ModalBody>
           <form className="d-block p-2" onSubmit={handleAddFormSubmit}>
-            <div className="form-group">
-              <label for="exampleInputEmail1">Id :</label>
+            {/* <div className="form-group"> */}
+              {/* <label for="exampleInputEmail1">Id :</label>
               <input
                 type="number"
                 required="required"
@@ -174,7 +174,7 @@ const FormData = () => {
                 placeholder="id "
                 onChange={handleAddFormChange}
               />
-            </div>
+            </div> */}
 
             <div className="form-group">
               <label for="exampleInputEmail1">Name :</label>

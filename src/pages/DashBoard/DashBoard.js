@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Card from "./card";
 import LineChart from "./chart";
-import YearChart from "./yearChart";
+
 import { CSVLink } from "react-csv";
 import "./DashBoard.css";
 
@@ -59,15 +59,15 @@ const DashBoard = () => {
 
           for (let i = listStartPoint; i < length; i++)
           {
-            arrayList.push(monthUserData[i].createdAt);
-            arrayList2.push(monthUserData[i].totalAmount);
+            arrayList.push(monthUserData[i]);
+           
             
           
            
           }
           setListArray(arrayList);
           
-          console.log(arrayList2);
+          // console.log(listArray);
           
           
         }
@@ -110,12 +110,25 @@ const DashBoard = () => {
 
   return (
     <div>
+      <div  className="dashBoardStyle" style={{ display: "flex",  justifyContent:"space-around"}}>
+        
+      <div
+        className="dashBoard-charts"
+        style={{ display: "flex", justifyContent: "space-between", marginTop: "14vh",
+        marginLeft: "2rem",
+        marginBottom: "2rem",
+        marginRight: "2rem", }}
+      >
+        <LineChart className="dashBoard-monthChart" />
+      
+      </div>
       <div
         className="dashBoard-cards"
         style={{
           display: "flex",
+          flexDirection:"column",
           justifyContent: "space-between",
-          marginTop: "12vh",
+          marginTop: "14vh",
           marginLeft: "2rem",
           marginBottom: "2rem",
           marginRight: "2rem",
@@ -126,14 +139,8 @@ const DashBoard = () => {
         <Card data ={max} Text="Max Transaction" />
       </div>
 
-      <div
-        className="dashBoard-charts"
-        style={{ display: "flex", justifyContent: "center" }}
-      >
-        <LineChart className="dashBoard-monthChart" />
-       
-      </div>
-        
+    
+      </div>  
   
       <div
         style={{
@@ -148,7 +155,7 @@ const DashBoard = () => {
           style={{
             borderRadius: "8px",
             background: "navy",
-            marginLeft: "100px",
+            marginRight: "297px",
             marginBottom:"2px",
             cursor: "pointer",
             padding: "0.35rem",

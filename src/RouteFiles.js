@@ -9,6 +9,7 @@ import Sales from "./pages/Transaction/Sales";
 import Customer from "./pages/customer/Customer";
 import Login from "./pages/Login/firstPage";
 import Logout from "./pages/LogOut/logout";
+import SignUp from "./pages/Login/SignUp";
 
 import Employee from "./pages/Employee/Employee";
 import { useNavigate } from "react-router-dom";
@@ -34,6 +35,12 @@ function RouteFiles() {
               <Login />
             }
           ></Route>
+     <Route
+            path="/signUp"
+            element={
+              <SignUp/>
+            }
+          ></Route>
 
           <Route
           
@@ -55,22 +62,6 @@ function RouteFiles() {
   );
 }
 
-// function OwnerElement({ children })
-// {
-//   // if (window.role == "O")
-//   // {
-//   //   return <>{ children}</>
-//   // }
-//   // else {
-//   //  return <div><h2>You do not have access to this page</h2></div>
-//   // }
 
-// }
-
-// function PublicElement({ children })
-// {
-
-//   return <>{ children}</>
-// }
 
 export default RouteFiles;

@@ -150,7 +150,7 @@ const LineChart = () => {
   // }, []);
   return (
     <div>
-      <Line data={data} options={options}  style={{ width: "57vw", height: "41vh" }}></Line>
+      <Line data={data} options={options}  style={{ width: "64vw", height: "60vh" }}></Line>
     </div>
   );
 };
