@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import Card from "./card";
+import LargeCard from "./Cards/LargeCard";
+import MediumCards from "./Cards/MediumCards";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faChartLine} from '@fortawesome/free-solid-svg-icons';
+
+
 import LineChart from "./chart";
 
 import { CSVLink } from "react-csv";
@@ -9,11 +14,12 @@ import axios from "axios";
 const DashBoard = () => {
   const token = localStorage.getItem("Token");
   const [monthUserData, setMonthUserData] = useState([]);
-  const [yearlyUserData, setYearlyUserData] = useState([]);
+ 
   const [totalAmountDaily, setTotalAmountDaily] = useState(0);
-  const [dailyTransaction, setDailyTransactions] = useState([]);
+  const [transaction, totalTransactions] = useState([]);
   const [currentDate, setCurrentDate] = useState();
   const [max, setMax] = useState(0);
+  const [lastTransaction, setLastTransaction] = useState();
   const [listArray, setListArray] = useState();
   // const[size,setSize]=useState("");
 
@@ -93,35 +99,59 @@ const DashBoard = () => {
       return item.totalAmount;
     });
     let result = 0;
-  
+  let count = 0;
     for (let i = 0; i < totalAmountArray.length; i++) {
       result = result + totalAmountArray[i];
+      if (totalAmountArray[i] > 0)
+      {
+        count++;
+        }
       
     }
     let maximum = Math.max(...totalAmountArray);
     setMax(maximum);
-    
+    totalTransactions(count);
     setTotalAmountDaily(result);
 
   }
+
+  const getWeeklyData = () => {
+    const totalAmountArray = monthUserData.map((item, index) => {
+      return item.totalAmount;
+    });
+    let result = 0;
+    let count = 0;
+
+    for (let i = totalAmountArray.length - 1; i >= 0; i++)
+    {
+      console.log(totalAmountArray[i]);
+      if (totalAmountArray[i] > 0)
+      {
+        setLastTransaction(totalAmountArray[i]);
+
+        count = i;
+        break;
+        }
+    }
+    
+    // for (let i = 0; i < 7; i++)
+    // {
+    //   result=result+totalAmountArray[count-i-1]
+    // }
+    
+   
+
+  }
+
+
   useEffect(() => {
     getTransactionData();
+    getWeeklyData();
   })
 
   return (
     <div>
-      <div  className="dashBoardStyle" style={{ display: "flex",  justifyContent:"space-around"}}>
-        
-      <div
-        className="dashBoard-charts"
-        style={{ display: "flex", justifyContent: "space-between", marginTop: "14vh",
-        marginLeft: "2rem",
-        marginBottom: "2rem",
-        marginRight: "2rem", }}
-      >
-        <LineChart className="dashBoard-monthChart" />
-      
-      </div>
+      <div className="dashBoardStyle" >
       <div
         className="dashBoard-cards"
         style={{
@@ -134,10 +164,34 @@ const DashBoard = () => {
           marginRight: "2rem",
         }}
       >
-        <Card data={size} Text="No. Of Transactions" />
-        <Card data={totalAmountDaily} Text="Total Amount " />
-        <Card data ={max} Text="Max Transaction" />
+    
+      <div className='cards-large'>
+      <LargeCard  icon={faChartLine} text="Total Sales : "  data={totalAmountDaily} />
+            <LargeCard text="No. of Purchase :  " data={transaction} />
+            <LargeCard text="Last Transaction : "  data={lastTransaction} />
+    
       </div>
+     
+      <div className='cards-medium' >
+      <MediumCards text="Inventory" text1="Total Item " text2="Low Item" />
+      <MediumCards text="Users" text1="Total Customers" text2="Total Vendors" />
+       <MediumCards text="Products" text1="Total Products" text2="Out of Stock" />
+        </div>
+
+    </div>
+        
+      <div
+        className="dashBoard-charts"
+        style={{ display: "flex", justifyContent: "space-between", marginTop: "14vh",
+        marginLeft: "2rem",
+        marginBottom: "2rem",
+        marginRight: "2rem", }}
+      >
+        <LineChart className="dashBoard-monthChart" />
+      
+      </div>
+
+      
 
     
       </div>  

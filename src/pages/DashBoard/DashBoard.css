@@ -22,3 +22,9 @@
     
     }
   } 
+  .cards-large{
+    display: flex;
+}
+.cards-medium{
+    display: flex;
+}
