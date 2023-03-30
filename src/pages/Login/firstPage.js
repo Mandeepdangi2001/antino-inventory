@@ -44,31 +44,7 @@ const FirstPage = () => {
           userSuccess={userSuccess}
           setUserSuccess={setUserSuccess}
       />
-        {/* <SignUp
-          option={option}
-          setOption={setOption}
-          userNameError={userNameError}
-          setUserNameError={setUserNameError}
-          emailChange={emailChange}
-          handelEmailChange={handelEmailChange}
-          passwordChange={passwordChange}
-          handlePasswordChange={handlePasswordChange}
-          emailError={emailError}
-          passwordError={passwordError}
-          setEmailError={setEmailError}
-          setPasswordError={setPasswordError}
-          successMessage={successMessage}
-          setsuccessMessage={setsuccessMessage}
-          userName={userName}
-          setUsername={setUsername}
-          setEmailSuccess={setEmailSuccess}
-          emailSuccess={emailSuccess}
-          passwordSuccess={passwordSuccess}
-          setPasswordSuccess={setPasswordSuccess}
-          userSuccess={userSuccess}
-          setUserSuccess={setUserSuccess}
-      />
-       */}
+    
       </div>
      
   );

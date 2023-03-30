@@ -8,7 +8,7 @@ const LargeCard = ({text,data}) => {
     <div>
       <div className="card-large" >
       
-        <h1 style={{ display: "flex", fontSize: "25px", marginLeft: "25px", marginTop: "27px" }}><FontAwesomeIcon icon={faChartLine} size="xl" style={{ marginRight: "20px" }} />{text}{ data}</h1>
+        <h1 style={{ display: "flex", fontSize: "20px", marginLeft: "40px", marginTop: "18px" }}><FontAwesomeIcon icon={faChartLine} size="xl" style={{ marginRight: "20px" }} />{text}{ data}</h1>
         <div className="card-body-large" >
         
         </div>

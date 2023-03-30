@@ -4,18 +4,19 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 import _ from "lodash";
 import * as AiIcons from "react-icons/ai";
-import data from "./mock-data.json";
+
 import styled from "styled-components";
 import axios from "axios";
-import EmployeeTAble from "./EmployeeTAble";
+
 import "./EmployeeForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import Pagination from "./Pagination";
+
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ListStyle from "./EmployeeListStyle";
 
 const NavIcon = styled.div`
   display: inline;
@@ -309,12 +310,8 @@ const FormData = () => {
       <ToastContainer />
 
       <ToastContainer />
-      <EmployeeTAble contacts={currentPost} />
-      <Pagination
-        totalPost={contacts.length}
-        postPerPage={postPerPage}
-        setCurrentPage={setCurrentPage}
-      />
+      <ListStyle contacts={currentPost} />
+     
     </div>
   );
 };

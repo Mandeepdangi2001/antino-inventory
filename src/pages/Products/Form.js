@@ -4,15 +4,16 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 import _ from "lodash";
 import * as AiIcons from "react-icons/ai";
-import data from "./mock-data.json";
+
 import styled from "styled-components";
 import axios from "axios";
-import Table from "./Table";
+
+import ListStyle from "./ListStyle";
 import "./form.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import Pagination from "./Pagination";
+
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -142,6 +143,7 @@ const FormData = () => {
 
 
     const newContacts = [...contacts, newContact];
+    console.log(contacts)
     setContacts(newContacts);
     // console.log(newContact);
 
@@ -197,7 +199,7 @@ const FormData = () => {
     // setContactsQuantity(newContacts);
 
 
-    const getCartData = async () => {
+    const putCartData = async () => {
       try {
         const response = await axios.put(
           `http://localhost:8080/products/${productId}/quantity/add/${quantity}`,
@@ -218,7 +220,7 @@ const FormData = () => {
         console.log(">>>>>>>>>>> error is ", error);
       }
     };
-    getCartData();
+    putCartData();
 
    
 
@@ -475,12 +477,13 @@ const FormData = () => {
         </div>
       </div>
       <ToastContainer />
-      <Table contacts={currentPost} />
-      <Pagination
+      {/* <Table contacts={currentPost} /> */}
+      <ListStyle contacts={contacts}></ListStyle>
+      {/* <Pagination
         totalPost={contacts.length}
         postPerPage={postPerPage}
         setCurrentPage={setCurrentPage}
-      />
+      /> */}
     </div>
   );
 };

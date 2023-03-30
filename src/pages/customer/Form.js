@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
 // import data from "./mock-data.json";
-import "./customerform.css";
+
 import _ from "lodash";
-import * as AiIcons from "react-icons/ai";
-import data from "./mock-data.json";
+
 import styled from "styled-components";
 import axios from "axios";
-import Table from "./Table";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Pagination from './Pagination';
+
+import ListStyle from "./CustomerListStyle";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { ToastContainer, toast } from 'react-toastify';
@@ -266,8 +266,8 @@ const FormData = () => {
       <ToastContainer
 
 />
-      <Table contacts={currentPost} />
-      <Pagination totalPost={contacts.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} />
+      <ListStyle contacts={currentPost} />
+      {/* <Pagination totalPost={contacts.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} /> */}
     </div>
   );
 };

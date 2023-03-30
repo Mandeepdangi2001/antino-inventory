@@ -1,12 +1,12 @@
-@media only screen and (max-width: 1200px) {
-    .dashBoardStyle {
+@media only screen and (max-width: 1320px) {
+    .cards-medium {
     flex-direction: column;
     
     }
   }
 
-  @media only screen and (max-width: 1200px) {
-    .dashBoard-charts {
+  @media only screen and (max-width: 1320px) {
+    .dashBoardBody{
     flex-direction: column;
   
     

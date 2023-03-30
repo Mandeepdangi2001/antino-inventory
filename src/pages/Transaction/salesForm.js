@@ -4,19 +4,20 @@ import { Modal, ModalHeader, ModalBody } from "reactstrap";
 
 import _ from "lodash";
 
-import data from "./mock-data.json";
+
 import styled from "styled-components";
 import axios from "axios";
-import Table from "./salesList";
+
 import "./salesForm.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import Pagination from "./Pagination";
+
 import Select from "react-select";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import ListStyle from "./TransactionListStyle";
 const NavIcon = styled.div`
   display: inline;
 `;
@@ -410,12 +411,7 @@ const FormData = () => {
         />
       </div>
       <ToastContainer />
-      <Table contacts={currentPost} />
-      <Pagination
-        totalPost={contacts.length}
-        postPerPage={postPerPage}
-        setCurrentPage={setCurrentPage}
-      />
+     <ListStyle contacts={contacts}></ListStyle>
     </div>
   );
 };

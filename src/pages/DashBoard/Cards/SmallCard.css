@@ -36,9 +36,11 @@
   .card-small {
     background: #fff;
     width: 10em;
-    height:8em;
+    height:3em;
    color:blue;
-background-color:rgba(255, 255, 255, 0.808);
+   background-color:rgba(255, 255, 255, 0.808);
+   padding-left: 10px;
+   padding-top: 15px;
     border-radius: 0.6em;
     margin: 1em;
     overflow: hidden;

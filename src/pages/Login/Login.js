@@ -98,13 +98,14 @@ const Login = ({
         password: passwordChange,
       })
       .then((res) => {
-        console.log("dgwaddawd" + res.data.st);
+       
           
-        if (res.data.statusCode == "200") {
+        if (res.data.statusCode == "200" &&(res.data.response.role=="O"||res.data.response.role=="S")) {
            
-          window.userName = res.data.response.userName;
-          window.role = res.data.response.role;
-          window.token = res.data.response.token;
+         
+          localStorage.setItem("Role", res.data.response.role);
+          console.log(res.data.response.role);
+         
           localStorage.setItem("Token", res.data.response.token)
           localStorage.setItem("UserName", res.data.response.userName)
           
@@ -118,7 +119,19 @@ const Login = ({
           navigate("/dashboard");
           
              
-        } else {
+        }
+        else if (res.data.statusCode == "200" && res.data.response.role == "U")
+        {
+          localStorage.setItem("Role", res.data.response.role);
+         
+         
+          localStorage.setItem("Token", res.data.response.token)
+          localStorage.setItem("UserName", res.data.response.userName)
+          
+          navigate("/ordering");
+          }
+        
+        else {
        
           toast.error("Incorrect username or password", {
             position: "top-right",
@@ -134,8 +147,7 @@ const Login = ({
          
       })
       .catch((e) => console.log("Error aa gyi", e));
-    console.log(passwordSuccess, emailSuccess, option);
-
+   
     handelEmailChange("");
     handlePasswordChange("");
   }

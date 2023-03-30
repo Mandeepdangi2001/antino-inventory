@@ -6,6 +6,7 @@ import * as RiIcons from 'react-icons/ri';
 // import * as BiIcons from 'react-icons/bi';
 import * as MdIcons from 'react-icons/md';
 import * as GoIcons from 'react-icons/go';
+import * as FaIcons from 'react-icons/fa';
 
 
 export const SidebarData = [
@@ -34,6 +35,27 @@ export const SidebarData = [
     icon: <MdIcons.MdPersonAddAlt1 />,
     cName:'nav',
 
+  },
+  {
+    title: "Book Ordering",
+    path: "/ordering",
+    icon: < MdIcons.MdAddShoppingCart/>,
+    cName:"nav",
+  },
+  {
+    title: 'User Management',
+    path: '/management',
+    icon: <FaIcons.FaUsers />,
+    cName:'nav',
+
+
+  },
+  {
+    title: "My Orders",
+    path: "/myorders",
+    icon: <
+    RiIcons.RiShoppingCartFill/>,
+    cName:"nav",
   },
   {
     title: 'Sales',
