@@ -87,7 +87,7 @@ const ListStyle = ({  }) => {
       returnDate: returnDate,
       userId:localStorage.getItem("UserId"),
       quantity: quantity,
-      rentalStatus:"Pending"
+      rentalStatus:"PENDING"
       
       };
 

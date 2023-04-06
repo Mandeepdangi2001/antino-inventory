@@ -12,15 +12,15 @@ const OrderBookListStyle = () => {
   const token = localStorage.getItem("Token");
   const [contacts, setContacts] = useState([]);
   useEffect(() => {
-      CartData();
+      CartData(localStorage.getItem("UserId"));
      
   
   
     }, []);
-  async function CartData() {
+  async function CartData(userId) {
       try {
         const response = await axios.get(
-          "http://localhost:8080/product/pageNO/0/noOfItems/1000",
+          `http://localhost:8080/rentals/users/${userId}/rentals`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -29,9 +29,9 @@ const OrderBookListStyle = () => {
             },
           }
         );
-        console.log("Cart returned the data: ", token);
-        console.log("data is" + JSON.stringify(response.data.response));
-        setContacts(response.data.response);
+        // console.log("Cart returned the data: ", token);
+        console.log("data is" ,response.data);
+        setContacts(response.data);
       } catch (error) {
         console.log(">>>>>>>>>>> error is ", error);
       }
@@ -46,31 +46,90 @@ const OrderBookListStyle = () => {
             paddingRight: '8px',
         },
     },
+    cells: {
+      style: {
+          paddingLeft: '8px', // override the cell padding for data cells
+          paddingRight: '8px',
+      },
+  },
+
     
 };
   const columns = [
     {
-      name: "ProductId",
-      selector: (row) => row.productId,
+      name: "Rental Id",
+      selector: (row) => row.rentalId,
       
     },
     {
+      name: "Product Id",
+      selector: (row) => row.productId,
+    },
+    {
       name: "Product Name",
-      selector: (row) => row.productName,
-    },
-    {
-      name: "Created At",
-      selector: (row) => row.createdAt,
-    },
-
-    {
-      name: "Category",
-      selector: (row) => row.category,
+      selector: (row) => row.product.productName,
     },
     {
       name: "Quantity",
       selector: (row) => row.quantity,
     },
+    {
+      name: "Issue Date",
+      selector: (row) => row.issueDate,
+    },
+
+    {
+      name: "Return Date",
+      selector: (row) => row.returnDate,
+    },
+   
+
+    {
+      name: "Rental Status",
+      selector: (row) =><>{row.rentalStatus}</>,
+      conditionalCellStyles: [
+        {
+            when: row => row.rentalStatus === "PENDING",
+            style: {
+              color: "yellow",
+              fontWeight: "bold",
+              fontSize:"15px",
+             
+              
+                '&:hover': {
+                    cursor: 'pointer',
+                },
+          },
+            
+        },
+        {
+          when: row => row.rentalStatus === "APPROVED",
+          style: {
+            
+              color: 'Green',
+              '&:hover': {
+                  cursor: 'pointer',
+              },
+        },
+        },
+        {
+          when: row => row.rentalStatus === "REJECTED",
+            style: {
+              
+                color: 'Red',
+                '&:hover': {
+                    cursor: 'pointer',
+                },
+          },
+        },
+      ]
+
+
+
+        
+
+    },
+   
    
     // {
     //   name: "Vendor",
