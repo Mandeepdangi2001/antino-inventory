@@ -1,11 +1,14 @@
 import React from 'react'
-import MyOrder from './Myorder'
+
 import Sidebar from '../../components/Sidebar'
+import MyOrder from './Myorder'
 const main = () => {
   return (
-      <div>
-          <Sidebar />
-          <MyOrder />
+    <div>
+        
+          {/* <MyOrder /> */}
+          
+        
     </div>
   )
 }

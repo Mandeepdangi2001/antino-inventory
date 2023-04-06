@@ -40,8 +40,6 @@ const FormData = () => {
     category: "",
     vendor: "",
     purchaseType: "",
-
-    // createdAt: "",
     productId: "",
   });
 
@@ -478,7 +476,7 @@ const FormData = () => {
       </div>
       <ToastContainer />
       {/* <Table contacts={currentPost} /> */}
-      <ListStyle contacts={contacts}></ListStyle>
+      <ListStyle contacts={contacts}  setContacts={setContacts}></ListStyle>
       {/* <Pagination
         totalPost={contacts.length}
         postPerPage={postPerPage}

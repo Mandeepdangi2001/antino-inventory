@@ -13,16 +13,11 @@ import "./form.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const NavIcon = styled.div`
-  display: inline;
-`;
+
 
 const FormData = () => {
-  const token = localStorage.getItem("Token");
-  const [contacts, setContacts] = useState([{}]);
-  const [contactsQuantity, setContactsQuantity] = useState([]);
-
-  const [filteredBooks, setFilteredBooks] = useState([]);
+ 
+  
 
 
   return (

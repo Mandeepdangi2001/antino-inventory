@@ -46,7 +46,7 @@ const DashBoard = () => {
         );
         // console.log("Cart returned the data: ", window.token);
 
-        // console.log(response.data.response.transactionDetails);
+      
         setSize(response.data.response.size);
         setMonthUserData(response.data.response.transactionDetails);
         if (monthUserData.length <= 5) {

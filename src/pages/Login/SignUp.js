@@ -151,15 +151,17 @@ const SignUp =() => {
         userName: userName,
         userEmail: emailChange,
         password: passwordChange,
-        role: "U",
+        role: "",
         address: addressChange,
         phoneNumber:phoneNumber
   
        
       })
         .then((res) => {
-          console.log("dgwaddawd" + res.data.statusCode);
+          
           if (res.data.statusCode == "200") {
+            // console.log("dgwaddawd" ,res.data.response.Id);
+            localStorage.setItem("UserId",res.data.response.Id )
             toast("user registered successfully");
             navigate("/");
           } else {

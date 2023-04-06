@@ -23,6 +23,7 @@ const ListStyle = ({  }) => {
   const [quantityValue, setQuantityValue] = useState();
   const [contacts, setContacts] = useState([{}]);
   const [filteredBooks, setFilteredBooks] = useState([]);
+  const [rentalId, setRentalId] = useState();
 
 
 
@@ -82,15 +83,22 @@ const ListStyle = ({  }) => {
 
     const newContact = {
       productId: productId,
-
+      issueDate: rentDate,
+      returnDate: returnDate,
+      userId:localStorage.getItem("UserId"),
       quantity: quantity,
-    };
+      rentalStatus:"Pending"
+      
+      };
 
-    const putCartData = async () => {
+
+      
+      
+    const getCartData = async () => {
       try {
-        const response = await axios.put(
-          `http://localhost:8080/products/${productId}/quantity/subtract/${quantity}`,
-          { quantity, productId },
+        const response = await axios.post(
+          "http://localhost:8080/rentals",
+          newContact,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -100,16 +108,40 @@ const ListStyle = ({  }) => {
           }
         );
        
-        CartData();
+        console.log(response);
 
-      
+        // CartData();
       } catch (error) {
         console.log(">>>>>>>>>>> error is ", error);
       }
     };
+    getCartData();
   
 
-    putCartData();
+  //   const putCartData = async () => {
+  //     try {
+  //       const response = await axios.put(
+  //         `http://localhost:8080/products/${productId}/quantity/subtract/${quantity}`,
+  //         { quantity, productId },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${token}`,
+  //             Accept: "application/json",
+  //             "Content-Type": "application/json",
+  //           },
+  //         }
+  //       );
+       
+  //       CartData();
+
+      
+  //     } catch (error) {
+  //       console.log(">>>>>>>>>>> error is ", error);
+  //     }
+  //   };
+  
+
+  //   putCartData();
   }
 
   else {
@@ -155,10 +187,14 @@ const ListStyle = ({  }) => {
         <button
           style={{
             borderRadius: "5px",
-            backgroundColor: "white",
+            
             textDecoration: "none",
             fontWeight: "bold",
-            padding: "5px",
+            paddingTop: "5px",
+            paddingLeft: "15px",
+            paddingBottom: "5px",
+            paddingRight: "15px",
+            
             backgroundColor: "navy",
             color: "white",
           }}

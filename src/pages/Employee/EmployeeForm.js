@@ -56,6 +56,10 @@ const FormData = () => {
     CartData();
   }, []);
 
+
+// ---------for refersh page when delete item and  this function is called in the delete handler
+  
+  
   async function CartData() {
     try {
       const response = await axios.get(
@@ -68,8 +72,7 @@ const FormData = () => {
           },
         }
       );
-      console.log(response.data.response.content);
-      // console.log("Cart returned the data: ", window.token);
+      
       setContacts(response.data.response.content);
       // console.log(productData[1].description);
     } catch (error) {
@@ -162,7 +165,7 @@ const FormData = () => {
           toast("staff already exist!!!");
         }
         console.log("Cart returned the data: ", window.token);
-        console.log("data is " + response.response);
+        console.log("data is " + response);
         //setContacts(response.response);
         // console.log(productData[1].description);
       } catch (error) {
@@ -310,7 +313,7 @@ const FormData = () => {
       <ToastContainer />
 
       <ToastContainer />
-      <ListStyle contacts={currentPost} />
+      <ListStyle contacts={currentPost}  setContacts={setContacts}/>
      
     </div>
   );

@@ -6,10 +6,36 @@ import axios from "axios";
 
 // import 'react-select/dist/react-select.css'
 
-const ListStyle = ({contacts}) => {
+const OrderBookListStyle = () => {
    
    
+  const token = localStorage.getItem("Token");
+  const [contacts, setContacts] = useState([]);
+  useEffect(() => {
+      CartData();
+     
   
+  
+    }, []);
+  async function CartData() {
+      try {
+        const response = await axios.get(
+          "http://localhost:8080/product/pageNO/0/noOfItems/1000",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        console.log("Cart returned the data: ", token);
+        console.log("data is" + JSON.stringify(response.data.response));
+        setContacts(response.data.response);
+      } catch (error) {
+        console.log(">>>>>>>>>>> error is ", error);
+      }
+    }
   const customStyles = {
    
     headCells: {
@@ -81,4 +107,4 @@ const ListStyle = ({contacts}) => {
   );
 };
 
-export default ListStyle;
+export default OrderBookListStyle;

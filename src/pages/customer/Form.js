@@ -266,7 +266,7 @@ const FormData = () => {
       <ToastContainer
 
 />
-      <ListStyle contacts={currentPost} />
+      <ListStyle contacts={contacts} setContacts={setContacts} />
       {/* <Pagination totalPost={contacts.length} postPerPage={postPerPage} setCurrentPage={setCurrentPage} /> */}
     </div>
   );

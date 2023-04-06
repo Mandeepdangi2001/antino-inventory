@@ -107,11 +107,11 @@ const LineChart = () => {
           }
         );
         setData({
-          labels: response.data.response.graph.map((item) => +item.date),
+          labels: response.data.response.graph.map((item) =>  +item.date ),
           datasets: [
             {
               label: (month +" Transactions"),
-              data: response?.data.response.graph.map((item) => +item.sales),
+              data: response?.data.response.graph.map((item) => +item.sales ),
               backgroundColor: "yellow",
               borderColor: "red",
               tension: 0.5,
@@ -119,6 +119,8 @@ const LineChart = () => {
             },
           ],
         });
+         
+        
       } catch (error) {
         console.log(">>>>>>>>>>> error is ", error);
       }
