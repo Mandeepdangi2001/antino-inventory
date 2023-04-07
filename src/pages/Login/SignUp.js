@@ -151,7 +151,7 @@ const SignUp =() => {
         userName: userName,
         userEmail: emailChange,
         password: passwordChange,
-        role: "",
+      
         address: addressChange,
         phoneNumber:phoneNumber
   

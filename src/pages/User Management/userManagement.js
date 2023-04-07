@@ -1,10 +1,13 @@
 import React from 'react'
 import Sidebar from '../../components/Sidebar'
+import UserListStyle from './UserListStyle'
 
 const UserManagement = () => {
   return (
-      <div>
-          <Sidebar />
+    <div style={{ marginTop: "11vh" }}>
+      
+      <Sidebar />
+      <UserListStyle />
     </div>
   )
 }

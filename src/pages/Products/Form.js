@@ -79,8 +79,7 @@ const FormData = () => {
           },
         }
       );
-      console.log("Cart returned the data: ", token);
-      console.log("data is" + JSON.stringify(response.data.response));
+
       setContacts(response.data.response);
     } catch (error) {
       console.log(">>>>>>>>>>> error is ", error);
