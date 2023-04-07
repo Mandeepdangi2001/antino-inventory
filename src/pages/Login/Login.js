@@ -104,6 +104,7 @@ const Login = ({
            
          
           localStorage.setItem("Role", res.data.response.role);
+          
           console.log(res.data.response.role);
          
           localStorage.setItem("Token", res.data.response.token)
@@ -122,8 +123,10 @@ const Login = ({
         }
         else if (res.data.statusCode == "200" && res.data.response.role == "U")
         {
+
+          console.log(res);
           localStorage.setItem("Role", res.data.response.role);
-         
+          localStorage.setItem("UserId", res.data.response.id);
          
           localStorage.setItem("Token", res.data.response.token)
           localStorage.setItem("UserName", res.data.response.userName)
