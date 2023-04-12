@@ -218,14 +218,14 @@ const FormData = () => {
 
           
             <div className="form-group">
-              <label for="exampleInputEmail1">Email address :</label>
+              <label for="exampleInputEmail1">Email Address : </label>
               <input
                 type="email"
                 className="form-control"
                 name="customerEmail"
                 id="exampleInputEmail1"
                 aria-describedby="emailHelp"
-                placeholder="Enter email"
+                placeholder="Enter Email "
                 onChange={handleAddFormChange}
               />
             </div>

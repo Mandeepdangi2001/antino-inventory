@@ -371,7 +371,8 @@ const FormData = () => {
                 onChange={purTypeChange}
               >
                  <option value="none" selected disabled >--Select--</option>
-                <option value="purchaseType">{purchaseType}</option>
+                 <option value="Buy">Buy</option>
+                {/* <option value="purchaseType">{purchaseType}</option> */}
                 
               </select>
           

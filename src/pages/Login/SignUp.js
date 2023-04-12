@@ -203,7 +203,7 @@ const SignUp =() => {
                 id="UserName"
                 name="UserName"
                 type="text"
-                placeholder="UserName"
+                placeholder="Username"
                 className="form-control custom-input"
                 onChange={handleUserName}
                 value={userName}

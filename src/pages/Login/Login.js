@@ -78,7 +78,7 @@ const Login = ({
         setPasswordSuccess(true);
       }
     } else {
-      setPasswordError("password Required");
+      setPasswordError("Password Required");
     }
     if (userName !== "") {
       const userRegex = /^[A-Za-z]+$/;
@@ -183,7 +183,7 @@ const Login = ({
                   id="UserName"
                   name="UserName"
                   type="text"
-                  placeholder="UserName"
+                  placeholder="Username"
                   className="form-control custom-input"
                   onChange={handleUserName}
                   value={userName}

@@ -307,7 +307,7 @@ const FormData = () => {
                 className="form-control"
                 id="price"
                 aria-describedby="emailHelp"
-                placeholder="price "
+                placeholder="Price "
                 onChange={handleAddFormChange}
               />
             </div>
@@ -321,7 +321,7 @@ const FormData = () => {
                 className="form-control"
                 id="gst"
                 aria-describedby="emailHelp"
-                placeholder="gst "
+                placeholder="GST "
                 onChange={handleAddFormChange}
               />
             </div>
@@ -367,8 +367,8 @@ const FormData = () => {
                 onChange={handleAddFormChange}
               >
                  <option value="none" selected disabled >--Select--</option>
-                <option value="rent">Rent</option>
-                <option value="buy">Buy</option>
+                <option value="Rent">Rent</option>
+                <option value="Buy">Buy</option>
               </select>
             </div>
 

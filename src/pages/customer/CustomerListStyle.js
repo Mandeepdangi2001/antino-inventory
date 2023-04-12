@@ -310,7 +310,7 @@ const ListStyle = ({ contacts, setContacts }) => {
             </div>
 
             <div className="form-group">
-              <label for="exampleInputEmail1">Email address :</label>
+              <label for="exampleInputEmail1">Email Address : </label>
               <input
                 type="email"
                 className="form-control"
